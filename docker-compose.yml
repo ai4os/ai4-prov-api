@@ -1,0 +1,28 @@
+services:
+  provapi:
+    build:
+      context: .
+    environment: 
+      - 'DB_HOST=db'
+      - 'DB_PORT=5432'
+      - 'DB_USERNAME=docker'
+      - 'DB_PASSWORD=docker'
+      - 'DB_NAME=provenance'
+
+    ports: ['8080:8080']
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+  db:
+    image: postgres:16
+    environment:
+      - 'POSTGRES_USER=docker'
+      - 'POSTGRES_PASSWORD=docker'
+      - 'POSTGRES_DB=provenance'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docker -d provenance"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s

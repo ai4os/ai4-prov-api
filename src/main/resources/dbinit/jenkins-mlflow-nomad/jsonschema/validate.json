@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "unixTime": {
+      "type": "integer"
+    },
+    "jenkinsMetadataSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "object",
+          "properties": {
+            "jobType": {
+              "type": "string"
+            },
+            "jobGroup": {
+              "type": "string"
+            },
+            "jobBranch": {
+              "type": "string"
+            },
+            "jobName": {
+              "type": "string"
+            },
+            "buildId": {
+              "type": "integer"
+            }
+          },
+          "label": {
+            "type": "string"
+          },
+          "fullLabel": {
+            "type": "string"
+          },
+          "jenkinsUrl": {
+            "type": "string"
+          },
+          "gitUrl": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "trace": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "enum": [
+                  "SUCCESS",
+                  "FAILURE"
+                ]
+              },
+              "startTime": {
+                "$ref": "#/$defs/unixTime"
+              },
+              "endTime": {
+                "$ref": "#/$defs/unixTime"
+              },
+              "jenkinsUrl": {
+                "type": "string"
+              },
+              "stages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "startTime": {
+                      "$ref": "#/$defs/unixTime"
+                    },
+                    "endTime": {
+                      "$ref": "#/$defs/unixTime"
+                    },
+                    "duration": {
+                      "type": "integer"
+                    },
+                    "properties": {
+                      "type": "object"
+                    }
+                  }
+                }
+              },
+              "changesets": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "commit": {"type":  "string"},
+                    "comment": {"type":  "string"},
+                    "authorName": {"type":  "string"},
+                    "authorURL": {"type":  "string"},
+                    "authorEmail": {"type":  "string"},
+                    "paths": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "timeStamp": {
+                      "$ref": "#/$defs/unixTime"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mlflowMetadataSchema": {
+      "type": "object",
+      "properties": {
+        "experiment_id": {"type":  "string"},
+        "artifact_location": {"type":  "string"},
+        "lifecycle_stage": {"type":  "string"},
+        "last_update_time": {"$ref":  "#/$defs/unixTime"},
+        "creation_time": {"$ref":  "#/$defs/unixTime"},
+        "name": {"type":  "string"},
+        "tags": {"type": ["array", "null"]}
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "jenkins-metadata": {"$ref": "#/$defs/jenkinsMetadataSchema"},
+    "mlflow-metadata": {"$ref":  "#/$defs/mlflowMetadataSchema"}
+  }
+}

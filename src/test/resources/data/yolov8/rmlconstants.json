@@ -1,0 +1,14 @@
+{
+  "organization": {
+    "id": "AI4EOSC"
+  },
+  "jenkins": {
+    "id": "Jenkins"
+  },
+  "mlflow": {
+    "id": "MLflow"
+  },
+  "nomad": {
+    "id": "Nomad"
+  }
+}

@@ -1,0 +1,915 @@
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix carml: <http://carml.taxonic.com/carml/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix fnml:   <http://semweb.mmlab.be/ns/fnml#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix ex: <http://example.com/> .
+@prefix cm: <https://codemeta.github.io/terms/> .
+@prefix cr: <http://mlcommons.org/croissant/1.0/> .
+@prefix fair4ml: <https://w3id.org/fair4ml/0.0.1/#> .
+@prefix schema: <http://schema.org/#> .
+
+@base <http://ai4os.eu/> .
+
+# Anhadir ontologia para status de los servicios o algo asi como por ejemplo para el "lyfecicle_stage" del MLflow
+# Por ahora estan puestos como dc:subject todos los conceptos para los que no tengo una ontologia
+
+# Logical sources
+
+<#ConstantsLogicalSource>
+    rml:source [
+        a carml:Stream;
+        carml:streamName "constants";
+    ];
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+.
+
+<#DetailsLogicalSource>
+    rml:source [
+        a carml:Stream;
+        carml:streamName "details-metadata";
+    ];
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+.
+
+<#MLflowLogicalSource>
+    rml:source [
+        a carml:Stream;
+        carml:streamName "mlflow-metadata";
+    ];
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+.
+
+<#JenkinsLogicalSource>
+    rml:source [
+        a carml:Stream;
+        carml:streamName "jenkins-metadata";
+    ];
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+.
+
+<#NomadLogicalSource>
+    rml:source [
+        a carml:Stream;
+        carml:streamName "nomad-metadata";
+    ];
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+.
+
+<#OrganizationAgent> a rr:TriplesMap ;
+    rml:logicalSource <#ConstantsLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://ai4os.eu/agent/{organization.id}" ;
+        rr:class prov:Agent
+    ];
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "{organization.id}";
+            rr:termType rr:Literal
+        ]
+   ];
+.
+
+<#JenkinsAgent> a rr:TriplesMap ;
+    rml:logicalSource <#JenkinsLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://ai4os.eu/agent/{origin}" ;
+        rr:class prov:Agent
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "{origin}";
+            rr:termType rr:Literal
+        ]
+   ];
+
+   rr:predicateObjectMap [
+        rr:predicate prov:actedOnBehalfOf;
+        rr:objectMap [
+            rr:parentTriplesMap <#OrganizationAgent>;
+            rr:joinCondition [
+                rr:child "origin" ;
+                rr:parent "jenkins.id"
+            ]
+        ]
+   ]
+.
+
+<#MLflowAgent> a rr:TriplesMap ;
+    rml:logicalSource <#MLflowLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://ai4os.eu/agent/{origin}" ;
+        rr:class prov:Agent
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "{origin}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate prov:actedOnBehalfOf;
+        rr:objectMap [
+            rr:parentTriplesMap <#OrganizationAgent>;
+            rr:joinCondition [
+                rr:child "origin" ;
+                rr:parent "mlflow.id"
+            ]
+        ]
+   ]
+.
+
+<#NomadAgent> a rr:TriplesMap ;
+    rml:logicalSource <#NomadLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://ai4os.eu/agent/{origin}" ;
+        rr:class prov:Agent
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "{origin}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate prov:actedOnBehalfOf;
+        rr:objectMap [
+            rr:parentTriplesMap <#OrganizationAgent>;
+            rr:joinCondition [
+                rr:child "origin" ;
+                rr:parent "nomad.id"
+            ]
+        ]
+   ]
+.
+
+# Application/Projects metadata details ->
+<#the_dataset>
+  rml:logicalSource [
+    rml:source [
+      a carml:Stream ;
+      carml:streamName "details-metadata";
+    ] ;
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+  ];
+  rr:subjectMap [
+    rr:template "http://deep-hybrid-datacloud.eu/{links.dataset}";
+    rr:class cr:Dataset ;
+  ];
+  rr:predicateObjectMap [
+    rr:predicate cr:url;
+    rr:objectMap [
+		rml:reference "links.dataset";
+    ]
+  ];
+.
+
+<#base_model>
+  rml:logicalSource [
+    rml:source [
+      a carml:Stream ;
+      carml:streamName "details-metadata";
+    ] ;
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+  ];
+  rr:subjectMap [
+    rr:template "http://deep-hybrid-datacloud.eu/{links.base_model}";
+    rr:class fair4ml:MLModel ;
+  ];
+  rr:predicateObjectMap [
+    rr:predicate schema:url;
+    rr:objectMap [
+		rml:reference "links.base_model";
+    ]
+  ];
+.
+
+<#Application> a rr:TriplesMap ;
+    rml:logicalSource <#DetailsLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "https://github.com/ai4os-hub/{id}" ;
+        rr:class prov:Entity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "(app){id}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:conditionsOfAccess;
+    rr:objectMap [
+    	rr:constant "AI4EOSC AUP";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate prov:wasAttributedTo ;
+        rr:objectMap [
+            rr:parentTriplesMap <#OrganizationAgent>;
+            rr:joinCondition [
+                rr:child "origin" ;
+                rr:parent "organization.id"
+            ]
+        ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:name;
+    rr:objectMap [
+    	rml:reference "title";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:description;
+    rr:objectMap [
+    	rml:reference "description";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:identifier;
+    rr:objectMap [
+    	rml:reference "doi";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate cm:readme;
+    rr:objectMap [
+    	rml:reference "links.documentation";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:anyURI;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:URL;
+    rr:objectMap [
+    	rml:reference "links.source_code";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:anyURI;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:archivedAt;
+    rr:objectMap [
+    	rml:reference "links.docker_image";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:anyURI;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:archivedAt;
+    rr:objectMap [
+    	rml:reference "links.zenodo_doi";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:anyURI;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:trainedOn;
+    rr:objectMap [ rr:parentTriplesMap <#the_dataset> ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:citation;
+    rr:objectMap [
+    	rml:reference "links.citation";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:fineTunedFrom;
+    rr:objectMap [ rr:parentTriplesMap <#base_model> ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:dateCreated;
+    rr:objectMap [
+    	rml:reference "dates.created";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:dateTime;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:dateModified;
+    rr:objectMap [
+    	rml:reference "dates.updated";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:dateTime;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:softwareRequirements;
+    rr:objectMap [
+    	rml:reference "libraries";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:mlTask;
+    rr:objectMap [
+    	rml:reference "tasks";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:modelCategory;
+    rr:objectMap [
+    	rml:reference "categories";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:keywords;
+    rr:objectMap [
+    	rml:reference "tags";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasDerivedFrom ;
+        rr:objectMap [
+            rr:parentTriplesMap <#JenkinsProjectBuild> ;
+            rr:joinCondition [
+                rr:child "$.id";
+                rr:parent "$.id.jobName"
+            ]
+        ]
+    ]
+.
+# <- Application/Projects metadata details
+
+# MLflow Terms Mappings ->
+# MLflowExperiment: artifact_location does not have a map I dont know what is and what it's used for
+<#MLflowExperiment> a rr:TriplesMap ;
+    rml:logicalSource <#MLflowLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://mlflow.services.ai4os.eu/job/{name}" ;
+        rr:class prov:Entity
+    ];
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Experiment-{name}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate dc:title ;
+        rr:objectMap [ rml:reference "name" ]
+    ];
+
+    rr:predicateObjectMap [
+        rr:predicate dc:identifier ;
+        rr:objectMap [
+             rml:reference "experiment_id";
+             rr:datatype xsd:dateTime
+        ]
+    ];
+
+    rr:predicateObjectMap [
+         rr:predicate dc:subject;
+         rr:objectMap [ rml:reference "lifecycle_stage" ]
+    ];
+
+    rr:predicateObjectMap [
+        rr:predicate prov:generatedAtTime ;
+        rr:objectMap [
+             rml:reference "creation_time";
+             rr:datatype xsd:dateTime
+        ]
+    ];
+
+    rr:predicateObjectMap [
+        rr:predicate dc:modified ;
+        rr:objectMap [
+             rml:reference "last_update_time";
+             rr:datatype xsd:dateTime
+        ]
+    ];
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasAttributedTo ;
+        rr:objectMap [
+          rr:parentTriplesMap <#MLflowAgent> ;
+        ]
+    ]
+.
+# <- MLflow Terms Mappings
+
+
+# Jenkins Terms Mappings ->
+<#JenkinsProjectGroup> a rr:TriplesMap ;
+    rml:logicalSource <#JenkinsLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://jenkins.services.ai4os.eu/job/{id.jobGroup}" ;
+        rr:class prov:Entity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "(Jenkins Job Group)-{id.jobGroup}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate ex:isDisabled ;
+        rr:objectMap [
+            rr:constant "true" ;
+            rr:datatype xsd:boolean
+        ]
+    ];
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasAttributedTo ;
+        rr:objectMap [
+          rr:parentTriplesMap <#JenkinsAgent> ;
+        ]
+    ]
+.
+
+<#JenkinsProject> a rr:TriplesMap ;
+    rml:logicalSource <#JenkinsLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://jenkins.services.ai4os.eu/job/{id.jobGroup}/job/{id.jobName}" ;
+        rr:class prov:Entity
+    ];
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "{id.jobName}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+
+    rr:predicateObjectMap [
+        rr:predicate ex:isDisabled ;
+        rr:objectMap [
+            rr:constant "true" ;
+            rr:datatype xsd:boolean
+        ]
+    ];
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasDerivedFrom ;
+        rr:objectMap [
+            rr:parentTriplesMap <#JenkinsProjectGroup>
+        ]
+    ];
+
+     rr:predicateObjectMap [
+         rr:predicate prov:wasAttributedTo ;
+         rr:objectMap [
+           rr:parentTriplesMap <#JenkinsAgent> ;
+         ]
+     ]
+.
+
+<#JenkinsProjectBranch> a rr:TriplesMap ;
+    rml:logicalSource <#JenkinsLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://jenkins.services.ai4os.eu/job/{id.jobGroup}/job/{id.jobName}/job/{id.jobBranch}";
+        rr:class prov:Entity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "(Branch)-{id.jobBranch}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+
+    rr:predicateObjectMap [
+        rr:predicate ex:isDisabled ;
+        rr:objectMap [
+            rr:constant "true" ;
+            rr:datatype xsd:boolean
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasDerivedFrom ;
+        rr:objectMap [
+            rr:parentTriplesMap <#JenkinsProject>
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasAttributedTo ;
+        rr:objectMap [
+          rr:parentTriplesMap <#JenkinsAgent>
+        ]
+    ]
+.
+
+<#JenkinsChangeset> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source [
+            a carml:Stream;
+            carml:streamName "jenkins-metadata" ;
+        ];
+        rml:referenceFormulation ql:JSONPath;
+        rml:iterator "$.trace.changesets[*]"
+    ] ;
+
+    rr:subjectMap [
+        rr:template "https://github.com/ai4os-hub/{jenkins.jobName}/commit/{commit}"; # take for granted that will be in ai4os-hub github repo group
+        rr:class prov:Entity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Commit-{commit}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate ex:isDisabled ;
+        rr:objectMap [
+            rr:constant "true" ;
+            rr:datatype xsd:boolean
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:generatedAtTime ;
+        rr:objectMap [
+            rml:reference "timeStamp";
+            rr:datatype xsd:dateTime
+        ]
+    ]
+.
+
+<#JenkinsBuildingStage> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source [
+          a carml:Stream;
+          carml:streamName "jenkins-metadata" ;
+        ];
+        rml:referenceFormulation ql:JSONPath;
+        rml:iterator "$.trace.stages[*]"
+    ] ;
+
+    rr:subjectMap [
+        rr:template "https://jenkins.services.ai4os.eu/job/{jenkins.jobGroup}/job/{jenkins.jobName}/job/{jenkins.jobBranch}/{jenkins.buildId}/pipeline-console/?selected-node={id}";
+        rr:class prov:Activity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Stage-{id}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate ex:isDisabled ;
+        rr:objectMap [
+            rr:constant "true" ;
+            rr:datatype xsd:boolean
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:startedAtTime ;
+        rr:objectMap [
+            rml:reference "startTime";
+            rr:datatype xsd:dateTime
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:endedAtTime ;
+        rr:objectMap [
+            rml:reference "endTime";
+            rr:datatype xsd:dateTime
+        ]
+    ] ;
+# TODO: Make predicateObjectMap to connect this with agent Github (you will need to make an auxiliar JSON to make this work) "github-changeset": []
+.
+
+<#JenkinsBuilding> a rr:TriplesMap ;
+    rml:logicalSource <#JenkinsLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://jenkins.services.ai4os.eu/job/{id.jobGroup}/job/{id.jobName}/job/{id.jobBranch}/{id.buildId}/Building";
+        rr:class prov:Activity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:constant "Building";
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasAssociatedWith ;
+        rr:objectMap [
+            rr:parentTriplesMap <#JenkinsAgent>
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:used ;
+        rr:objectMap [
+            rr:parentTriplesMap <#JenkinsProjectBranch>
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasInformedBy ;
+        rr:objectMap [
+            rr:parentTriplesMap <#JenkinsBuildingStage> ;
+            rr:joinCondition [
+                rr:child "$.trace.stages[*].id" ;
+                rr:parent "$.id"
+            ]
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:used ;
+        rr:objectMap [
+          rr:parentTriplesMap <#MLflowExperiment> ;
+          rr:joinCondition [
+            rr:child "$.applicationId" ;
+            rr:parent "$.applicationId"
+          ]
+        ]
+    ] ; # TODO: should be here nomad job as used??
+    rr:predicateObjectMap [
+        rr:predicate prov:used ;
+        rr:objectMap [
+            rr:parentTriplesMap <#JenkinsChangeset> ;
+            rr:joinCondition [
+                rr:child "$.trace.changesets[*].commit" ;
+                rr:parent "$.commit"
+            ]
+        ]
+    ]
+.
+
+
+<#JenkinsProjectBuild> a rr:TriplesMap ;
+    rml:logicalSource <#JenkinsLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://jenkins.services.ai4os.eu/job/{id.jobGroup}/job/{id.jobName}/job/{id.jobBranch}/{id.buildId}";
+        rr:class prov:Entity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Build {id.buildId}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasGeneratedBy;
+        rr:objectMap [
+          rr:parentTriplesMap <#JenkinsBuilding>
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasAttributedTo;
+        rr:objectMap [
+          rr:parentTriplesMap <#JenkinsAgent>
+        ]
+    ]
+.
+
+# <- Jenkins Terms Mappings
+
+# Nomad Terms Mappings ->
+# For now it just will be one simple entity for Nomad (in future probably i'll have to split it)
+
+<#NomadJob> a rr:TriplesMap ;
+    rml:logicalSource <#NomadLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://nomad.services.ai4os.eu/{job_ID}";
+        rr:class prov:Entity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Nomad Job - {job_ID}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasAttributedTo ;
+        rr:objectMap [
+          rr:parentTriplesMap <#NomadAgent> ;
+        ]
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate dc:title;
+        rr:objectMap [
+            rml:reference "name";
+            rr:termType rr:Literal;
+            rr:datatype xsd:string;
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:status;
+        rr:objectMap [
+            rml:reference "status";
+            rr:termType rr:Literal;
+            rr:datatype xsd:string;
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:owner;
+        rr:objectMap [
+            rml:reference "owner";
+            rr:termType rr:Literal;
+            rr:datatype xsd:string;
+        ]
+   ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate schema:description;
+    rr:objectMap [
+    	rml:reference "description";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate schema:description;
+    rr:objectMap [
+      	rml:reference "description";
+      	rr:termType rr:Literal;
+      	rr:datatype xsd:string;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:dockerimage;
+    rr:objectMap [
+        	rml:reference "docker_image";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:string;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:dockercommand;
+    rr:objectMap [
+        	rml:reference "docker_command";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:string;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate prov:generatedAtTime ;
+    rr:objectMap [
+        	rml:reference "submit_time";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:dateTime;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:cpuCores ;
+    rr:objectMap [
+        	rml:reference "resources.cpu_num";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:integer;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:cpuMHzFreq ;
+    rr:objectMap [
+        	rml:reference "resources.cpu_MHz";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:integer;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:gpuNum ;
+    rr:objectMap [
+        	rml:reference "resources.gpu_num";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:integer;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:memoryMB ;
+    rr:objectMap [
+        	rml:reference "resources.memory_MB";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:integer;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:diskMB ;
+    rr:objectMap [
+        	rml:reference "resources.disk_MB";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:integer;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:endpoints ;
+    rr:objectMap [
+        	rml:reference "endpoints.*";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:string;
+    ]
+  ] ;
+
+   rr:predicateObjectMap [
+     rr:predicate dc:creator ;
+     rr:objectMap [
+         	rml:reference "datacenter";
+         	rr:termType rr:Literal;
+         	rr:datatype xsd:string;
+     ]
+   ] ;
+.
+
+# <- Nomad Terms Mappings

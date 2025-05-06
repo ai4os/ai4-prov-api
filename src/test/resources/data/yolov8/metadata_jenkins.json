@@ -1,0 +1,305 @@
+{
+  "origin": "Jenkins",
+  "id": {
+    "buildId": 46,
+    "jobName": "ai4os-yolov8-torch",
+    "jobGroup": "AI4OS-hub",
+    "jobBranch": "main"
+  },
+  "label": "main",
+  "trace": {
+    "stages": [
+      {
+        "id": "6",
+        "name": "Declarative: Checkout SCM",
+        "endTime": 1740995662855,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 2843,
+        "startTime": 1740995660012,
+        "properties": {}
+      },
+      {
+        "id": "16",
+        "name": "Metadata tests",
+        "endTime": 1740995665346,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 985,
+        "startTime": 1740995664361,
+        "properties": {}
+      },
+      {
+        "id": "26",
+        "name": "AI4OS Hub metadata V1 validation",
+        "endTime": 1740995701644,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 36298,
+        "startTime": 1740995665346,
+        "properties": {}
+      },
+      {
+        "id": "28",
+        "name": "AI4OS Hub metadata V2 validation (JSON)",
+        "endTime": 1740995702161,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 36631,
+        "startTime": 1740995665530,
+        "properties": {}
+      },
+      {
+        "id": "30",
+        "name": "AI4OS Hub metadata V2 validation (YAML)",
+        "endTime": 1740995710349,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 44677,
+        "startTime": 1740995665672,
+        "properties": {}
+      },
+      {
+        "id": "32",
+        "name": "License validation",
+        "endTime": 1740995669770,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 3946,
+        "startTime": 1740995665824,
+        "properties": {}
+      },
+      {
+        "id": "132",
+        "name": "Check if only metadata files have changed",
+        "endTime": 1740995714514,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 1740,
+        "startTime": 1740995712774,
+        "properties": {}
+      },
+      {
+        "id": "141",
+        "name": "User-defined module pipeline job",
+        "endTime": 1740996452487,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 737713,
+        "startTime": 1740995714774,
+        "properties": {}
+      },
+      {
+        "id": "150",
+        "name": "Docker build and delivery",
+        "endTime": 1740996453721,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 747,
+        "startTime": 1740996452974,
+        "properties": {}
+      },
+      {
+        "id": "152",
+        "name": "Docker Variable initialization",
+        "endTime": 1740996459045,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 5324,
+        "startTime": 1740996453721,
+        "properties": {}
+      },
+      {
+        "id": "168",
+        "name": "AI4OS Hub Docker images build",
+        "endTime": 1740996855076,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 395297,
+        "startTime": 1740996459779,
+        "properties": {}
+      },
+      {
+        "id": "196",
+        "name": "AI4OS Hub Docker delivery to registry",
+        "endTime": 1740996916341,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 60439,
+        "startTime": 1740996855902,
+        "properties": {
+          "appDockerDeliveryHash": "sha256:108efcfc2a6b535c4a0aeec22beca8585b2ee5daea3208d4d9c00c0af7107350"
+        }
+      },
+      {
+        "id": "226",
+        "name": "Update Catalog page",
+        "endTime": 1740996925866,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 7949,
+        "startTime": 1740996917917,
+        "properties": {}
+      },
+      {
+        "id": "244",
+        "name": "Update OSCAR services",
+        "endTime": 1740996948806,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 22210,
+        "startTime": 1740996926596,
+        "properties": {}
+      },
+      {
+        "id": "285",
+        "name": "Declarative: Post Actions",
+        "endTime": 1740996950279,
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "duration": 1055,
+        "startTime": 1740996949224,
+        "properties": {}
+      }
+    ],
+    "status": "SUCCESS",
+    "endTime": 1740995649390,
+    "startTime": 1740995649390,
+    "changesets": [
+      {
+        "paths": [
+          "Jenkinsfile"
+        ],
+        "commit": "a16ae8a355440c601d2ef62002e702610a2eb0e5",
+        "comment": "fix: check metadata.json only if present (not mandatory anymore)\n",
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "authorURL": "https://jenkins.services.ai4os.eu/user/noreply",
+        "timeStamp": 1739985084000,
+        "authorName": "noreply",
+        "authorEmail": "noreply@github.com"
+      },
+      {
+        "paths": [
+          "Jenkinsfile"
+        ],
+        "commit": "508cb72f81d37e7a2617085f00d34a367898686b",
+        "comment": "fix: how docker image name defined (temporary solution)\n",
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "authorURL": "https://jenkins.services.ai4os.eu/user/noreply",
+        "timeStamp": 1739990709000,
+        "authorName": "noreply",
+        "authorEmail": "noreply@github.com"
+      },
+      {
+        "paths": [
+          "Jenkinsfile"
+        ],
+        "commit": "325b993fda15d97715c0ecf9252a73394ba6ea4e",
+        "comment": "fix: how docker image name defined (temporary solution)\n",
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "authorURL": "https://jenkins.services.ai4os.eu/user/noreply",
+        "timeStamp": 1739992862000,
+        "authorName": "noreply",
+        "authorEmail": "noreply@github.com"
+      },
+      {
+        "paths": [
+          "api/__init__.py"
+        ],
+        "commit": "b85fb70cb75a91df590515d834f8a1a59e50383e",
+        "comment": "Update __init__.py\n",
+        "jenkins": {
+          "buildId": 46,
+          "jobName": "ai4os-yolov8-torch",
+          "jobGroup": "AI4OS-hub",
+          "jobBranch": "main"
+        },
+        "authorURL": "https://jenkins.services.ai4os.eu/user/noreply",
+        "timeStamp": 1740995629000,
+        "authorName": "noreply",
+        "authorEmail": "noreply@github.com"
+      }
+    ],
+    "jenkinsUrl": "https://jenkins.services.ai4os.eu/job/AI4OS-hub/job/ai4os-yolov8-torch/job/main/46/"
+  },
+  "gitUrl": null,
+  "uniqueId": "AI4OS-hub/main/ai4os-yolov8-torch/46",
+  "fullLabel": "AI4OS Hub Building (QA) » ai4os-yolov8-torch » main #46",
+  "jenkinsUrl": "https://jenkins.services.ai4os.eu/job/AI4OS-hub/job/ai4os-yolov8-torch/job/main/",
+  "applicationId": "ai4os-yolov8-torch"
+}

@@ -1,0 +1,42 @@
+db:
+  host: DBCRED
+  port: DBCRED
+  name: DBCRED
+  username: DBCRED
+  password: DBCRED
+spring:
+  datasource:
+    driver-class-name: "org.postgresql.Driver"
+    url: "jdbc:postgresql://${db.host}:${db.port}/${db.name}"
+    username: ${db.username}
+    password: ${db.password}
+    cachePrepStmts: true
+    prepStmtCacheSize: 250
+    prepStmtCacheSqlLimit: 2048
+    useServerPrepStmts: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 2048
+logging:
+  level:
+    org.springframework.boot.context.config: DEBUG
+jenkins:
+  host: https://jenkins.services.ai4os.eu
+mlflow:
+  host: https://mlflow.cloud.ai4eosc.eu
+  credentials:
+    username: SECRET
+    password: SECRET
+nomad:
+  host: https://api.cloud.ai4eosc.eu
+  fullInfo: true
+  credentials:
+    token: SECRET
+    vo: SECRET

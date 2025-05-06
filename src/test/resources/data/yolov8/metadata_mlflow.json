@@ -1,0 +1,11 @@
+{
+  "origin": "MLflow",
+  "name": "yolov8_L",
+  "tags": null,
+  "creation_time": 1701957690436,
+  "experiment_id": "30",
+  "lifecycle_stage": "active",
+  "last_update_time": 1701957690436,
+  "artifact_location": "mlflow-artifacts:/30",
+  "applicationId": "ai4os-yolov8-torch"
+}

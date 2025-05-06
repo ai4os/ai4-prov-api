@@ -1,0 +1,146 @@
+{
+  "id": {
+    "jobType": "APP_PUBLICATION_VIA_JENKINS",
+    "jobGroup": "AI4OS-hub",
+    "jobName": "dogs-breed-detector",
+    "jobBranch": "main",
+    "buildId": 21
+  },
+  "label": "main",
+  "fullLabel": "AI4OS Hub Building (QA) » dogs-breed-detector » main #21",
+  "jenkinsUrl": "https://jenkins.services.ai4os.eu/job/AI4OS-hub/job/dogs-breed-detector/job/main/",
+  "gitUrl": null,
+  "trace": {
+    "status": "SUCCESS",
+    "startTime": 1730816608863,
+    "endTime": 1730816608863,
+    "jenkinsUrl": "https://jenkins.services.ai4os.eu/job/AI4OS-hub/job/dogs-breed-detector/job/main/21/",
+    "stages": [
+      {
+        "id": "6",
+        "name": "Declarative: Checkout SCM",
+        "startTime": 1730816616949,
+        "endTime": 1730816619676,
+        "duration": 2727,
+        "properties": {}
+      },
+      {
+        "id": "16",
+        "name": "Metadata tests",
+        "startTime": 1730816621579,
+        "endTime": 1730816622598,
+        "duration": 1019,
+        "properties": {}
+      },
+      {
+        "id": "26",
+        "name": "AI4OS Hub metadata V1 validation",
+        "startTime": 1730816622598,
+        "endTime": 1730816650547,
+        "duration": 27949,
+        "properties": {}
+      },
+      {
+        "id": "28",
+        "name": "AI4OS Hub metadata V2 validation (JSON)",
+        "startTime": 1730816622724,
+        "endTime": 1730816644355,
+        "duration": 21631,
+        "properties": {}
+      },
+      {
+        "id": "30",
+        "name": "AI4OS Hub metadata V2 validation (YAML)",
+        "startTime": 1730816622891,
+        "endTime": 1730816654147,
+        "duration": 31256,
+        "properties": {}
+      },
+      {
+        "id": "32",
+        "name": "License validation",
+        "startTime": 1730816623108,
+        "endTime": 1730816626572,
+        "duration": 3464,
+        "properties": {}
+      },
+      {
+        "id": "135",
+        "name": "Check if only metadata files have changed",
+        "startTime": 1730816655563,
+        "endTime": 1730816657134,
+        "duration": 1571,
+        "properties": {}
+      },
+      {
+        "id": "144",
+        "name": "User-defined module pipeline job",
+        "startTime": 1730816657695,
+        "endTime": 1730816658461,
+        "duration": 766,
+        "properties": {}
+      },
+      {
+        "id": "149",
+        "name": "Docker build and delivery",
+        "startTime": 1730816658711,
+        "endTime": 1730816659430,
+        "duration": 719,
+        "properties": {}
+      },
+      {
+        "id": "152",
+        "name": "Docker Variable initialization",
+        "startTime": 1730816659430,
+        "endTime": 1730816660115,
+        "duration": 685,
+        "properties": {}
+      },
+      {
+        "id": "157",
+        "name": "AI4OS Hub Docker images build",
+        "startTime": 1730816660641,
+        "endTime": 1730816661438,
+        "duration": 797,
+        "properties": {}
+      },
+      {
+        "id": "162",
+        "name": "AI4OS Hub Docker delivery to registry",
+        "startTime": 1730816661702,
+        "endTime": 1730816662373,
+        "duration": 671,
+        "properties": {}
+      },
+      {
+        "id": "169",
+        "name": "Update OSCAR services",
+        "startTime": 1730816663250,
+        "endTime": 1730816684423,
+        "duration": 21173,
+        "properties": {}
+      },
+      {
+        "id": "210",
+        "name": "Declarative: Post Actions",
+        "startTime": 1730816684979,
+        "endTime": 1730816686314,
+        "duration": 1335,
+        "properties": {}
+      }
+    ],
+    "changesets": [
+      {
+        "commit": "16073548b3bbd1767ac60bbd111e2fd3614f2610",
+        "comment": "fix: Update ai4-metadata.yml to add Keras\n",
+        "authorName": "noreply",
+        "authorURL": "https://jenkins.services.ai4os.eu/user/noreply",
+        "authorEmail": "noreply@github.com",
+        "paths": [
+          "ai4-metadata.yml"
+        ],
+        "timeStamp": 1730816589000
+      }
+    ]
+  }
+}

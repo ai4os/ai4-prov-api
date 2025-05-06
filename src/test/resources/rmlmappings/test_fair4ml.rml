@@ -1,0 +1,238 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix fair4ml: <https://w3id.org/fair4ml/0.0.1/#> .
+@prefix schema: <http://schema.org/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix carml: <http://carml.taxonic.com/carml/> .
+@prefix cm: <https://codemeta.github.io/terms/> .
+@prefix cr: <http://mlcommons.org/croissant/1.0/> .
+
+@base <http://deep-hybrid-datacloud.eu/> .
+
+<#DeepHybridApp> a rr:TriplesMap;
+  rml:logicalSource [
+    rml:source [
+      a carml:Stream ;
+      carml:streamName "details-metadata";
+    ] ;
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+  ];
+
+  rr:subjectMap [
+    rr:template "http://deep-hybrid-datacloud.eu/app/MY_APP";
+    rr:class fair4ml:MLModel;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:conditionsOfAccess;
+    rr:objectMap [
+    	rr:constant "AI4EOSC AUP";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:sharedBy;
+    rr:objectMap [ rr:parentTriplesMap <#ai4eosc> ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:name;
+    rr:objectMap [
+    	rml:reference "title";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:description;
+    rr:objectMap [
+    	rml:reference "description";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:identifier;
+    rr:objectMap [
+    	rml:reference "doi";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate cm:readme;
+    rr:objectMap [
+    	rml:reference "links.documentation";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:anyURI;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:URL;
+    rr:objectMap [
+    	rml:reference "links.source_code";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:anyURI;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:archivedAt;
+    rr:objectMap [
+    	rml:reference "links.docker_image";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:anyURI;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:archivedAt;
+    rr:objectMap [
+    	rml:reference "links.zenodo_doi";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:anyURI;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:trainedOn;
+    rr:objectMap [ rr:parentTriplesMap <#the_dataset> ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:citation;
+    rr:objectMap [
+    	rml:reference "links.citation";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:fineTunedFrom;
+    rr:objectMap [ rr:parentTriplesMap <#base_model> ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:dateCreated;
+    rr:objectMap [
+    	rml:reference "dates.created";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:dateTime;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:dateModified;
+    rr:objectMap [
+    	rml:reference "dates.updated";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:dateTime;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:softwareRequirements;
+    rr:objectMap [
+    	rml:reference "libraries";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:mlTask;
+    rr:objectMap [
+    	rml:reference "tasks";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate fair4ml:modelCategory;
+    rr:objectMap [
+    	rml:reference "categories";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate schema:keywords;
+    rr:objectMap [
+    	rml:reference "tags";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ];
+.
+
+<#ai4eosc>
+  rml:logicalSource [
+    rml:source [
+      a carml:Stream ;
+      carml:streamName "details-metadata";
+    ] ;
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+  ];
+  rr:subjectMap [
+    rr:template "http://deep-hybrid-datacloud.eu/#ai4eosc";
+    rr:class schema:Organization ;
+  ];
+  rr:predicateObjectMap [
+    rr:predicate schema:name;
+    rr:objectMap [
+    	rr:constant "AI4EOSC";
+    ]
+  ];
+.
+
+<#the_dataset>
+  rml:logicalSource [
+    rml:source [
+      a carml:Stream ;
+      carml:streamName "details-metadata";
+    ] ;
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+  ];
+  rr:subjectMap [
+    rr:template "http://deep-hybrid-datacloud.eu/#the_dataset";
+    rr:class cr:Dataset ;
+  ];
+  rr:predicateObjectMap [
+    rr:predicate cr:url;
+    rr:objectMap [
+		rml:reference "links.dataset";
+    ]
+  ];
+.
+
+<#base_model>
+  rml:logicalSource [
+    rml:source [
+      a carml:Stream ;
+      carml:streamName "details-metadata";
+    ] ;
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+  ];
+  rr:subjectMap [
+    rr:template "http://deep-hybrid-datacloud.eu/#base_model";
+    rr:class fair4ml:MLModel ;
+  ];
+  rr:predicateObjectMap [
+    rr:predicate schema:url;
+    rr:objectMap [
+		rml:reference "links.base_model";
+    ]
+  ];
+.
