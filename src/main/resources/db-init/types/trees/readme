@@ -1,0 +1,21 @@
+This tree directory structure is used to generate all provenance variants
+Here is where all of the provenance RML maps will be stored
+
+Each extension has to include 2 files:
+-> content.ttl : actual content of the RML that has to be included in the father
+RML (probably this will be tags that describe the elements of that provenance source)
+
+-> origin: a key value pair separated by a colon like "mlflow:MLflow". This is needed
+to link different sources with other sources during RML mapping...
+
+(OPTIONAL)
+-> bridge.ttl: this should include the link between the core RML and the extension
+
+The last tag/element of the core RML RDF should be the one where this bridges will be written
+(the one which will be linked with the extensions that has bridges.ttl defined)
+
+(IMPORTANT)
+An extension could have no bridge that does not matter. It just means that the element
+wont be linked with the core RML main entity/tag. However, because every extension has a origin
+they will be linked to the root agent (organization agent (probably AI4EOSC)) of the core RML.
+This link will be defined somewhere in <extension>/content.ttl

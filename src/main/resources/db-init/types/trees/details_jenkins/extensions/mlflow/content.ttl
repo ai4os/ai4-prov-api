@@ -1,0 +1,320 @@
+<#MLflowExperimentLogicalSource>
+    rml:source [
+        a carml:Stream;
+        carml:streamName "mlflow";
+    ];
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+.
+
+<#MLflowRunLogicalSource>
+    rml:source [
+        a carml:Stream;
+        carml:streamName "mlflow";
+    ];
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.run"
+.
+
+<#MLflowAgent> a rr:TriplesMap ;
+    rml:logicalSource <#MLflowExperimentLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://ai4os.eu/agent/{origin}" ;
+        rr:class prov:Agent
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "{origin}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate prov:actedOnBehalfOf;
+        rr:objectMap [
+            rr:parentTriplesMap <#OrganizationAgent>;
+            rr:joinCondition [
+                rr:child "origin" ;
+                rr:parent "mlflow.id"
+            ]
+        ]
+   ]
+.
+
+<#MLflowExperiment> a rr:TriplesMap ;
+    rml:logicalSource <#MLflowExperimentLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://mlflow.services.ai4os.eu/job/{name}" ;
+        rr:class prov:Collection
+    ];
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Experiment-{name}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate dc:title ;
+        rr:objectMap [ rml:reference "name" ]
+    ];
+
+    rr:predicateObjectMap [
+        rr:predicate dc:identifier ;
+        rr:objectMap [
+             rml:reference "experiment_id";
+             rr:datatype xsd:dateTime
+        ]
+    ];
+
+    rr:predicateObjectMap [
+         rr:predicate dc:subject;
+         rr:objectMap [ rml:reference "lifecycle_stage" ]
+    ];
+
+    rr:predicateObjectMap [
+        rr:predicate prov:generatedAtTime ;
+        rr:objectMap [
+             rml:reference "creation_time";
+             rr:datatype xsd:dateTime
+        ]
+    ];
+
+    rr:predicateObjectMap [
+        rr:predicate dc:modified ;
+        rr:objectMap [
+             rml:reference "last_update_time";
+             rr:datatype xsd:dateTime
+        ]
+    ];
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasAttributedTo ;
+        rr:objectMap [
+          rr:parentTriplesMap <#MLflowAgent> ;
+        ]
+    ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate prov:hadMember ;
+    rr:objectMap [
+        rr:parentTriplesMap <#MLflowRun> ;
+        rr:joinCondition [
+            rr:child "$.experiment_id";
+            rr:parent "$.info.experiment_id"
+        ]
+    ]
+  ] ;
+.
+
+<#MLflowRun> a rr:TriplesMap ;
+    rml:logicalSource <#MLflowRunLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://mlflow.services.ai4os.eu/job/{info.run_id}";
+        rr:class prov:Entity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Run-{info.run_id}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate dc:title;
+        rr:objectMap [
+            rml:reference "info.run_name";
+            rr:termType rr:Literal;
+            rr:datatype xsd:string;
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:used ;
+        rr:objectMap [
+            rr:parentTriplesMap <#MLflowRunTag> ;
+            rr:joinCondition [
+                rr:child "$.info.run_id" ;
+                rr:parent "$.runId"
+            ]
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:used ;
+        rr:objectMap [
+            rr:parentTriplesMap <#MLflowRunParam> ;
+            rr:joinCondition [
+                rr:child "$.info.run_id" ;
+                rr:parent "$.runId"
+            ]
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:used ;
+        rr:objectMap [
+            rr:parentTriplesMap <#MLflowRunMetric> ;
+            rr:joinCondition [
+                rr:child "$.info.run_id" ;
+                rr:parent "$.runId"
+            ]
+        ]
+    ] ;
+
+.
+
+<#MLflowRunTag> a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source [
+            a carml:Stream;
+            carml:streamName "mlflow";
+        ];
+        rml:referenceFormulation ql:JSONPath;
+        rml:iterator "$.run.data.tags[*]"
+    ] ;
+
+    rr:subjectMap [
+        rr:template "http://mlflow.services.ai4os.eu/job/run/tag/{key}";
+        rr:class prov:Entity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Tag-{key}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate ex:isDisabled ;
+        rr:objectMap [
+            rr:constant "true" ;
+            rr:datatype xsd:boolean
+        ]
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate schema:name;
+        rr:objectMap [
+            rml:reference "key";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate schema:text ;
+        rr:objectMap [ rml:reference "value" ]
+    ];
+.
+
+<#MLflowRunParam>
+    rml:logicalSource [
+        rml:source [
+            a carml:Stream;
+            carml:streamName "mlflow";
+        ];
+        rml:referenceFormulation ql:JSONPath;
+        rml:iterator "$.run.data.params[*]"
+    ] ;
+
+    rr:subjectMap [
+        rr:template "http://mlflow.services.ai4os.eu/job/run/param/{key}";
+        rr:class prov:Entity
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate ex:isDisabled ;
+        rr:objectMap [
+            rr:constant "true" ;
+            rr:datatype xsd:boolean
+        ]
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Param-{key}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate schema:name;
+        rr:objectMap [
+            rml:reference "key";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate schema:text ;
+        rr:objectMap [ rml:reference "value" ]
+    ];
+.
+
+<#MLflowRunMetric>
+    rml:logicalSource [
+        rml:source [
+            a carml:Stream;
+            carml:streamName "mlflow";
+        ];
+        rml:referenceFormulation ql:JSONPath;
+        rml:iterator "$.run.data.metrics[*]"
+    ] ;
+
+    rr:subjectMap [
+        rr:template "http://mlflow.services.ai4os.eu/job/run/metric/{key}";
+        rr:class prov:Entity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Metric-{key}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate ex:isDisabled ;
+        rr:objectMap [
+            rr:constant "true" ;
+            rr:datatype xsd:boolean
+        ]
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate schema:name;
+        rr:objectMap [
+            rml:reference "key";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate schema:value;
+        rr:objectMap [
+            rml:reference "value";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate prov:generatedAtTime;
+        rr:objectMap [
+            rml:reference "timestamp";
+            rr:termType rr:Literal
+        ]
+   ] ;
+.

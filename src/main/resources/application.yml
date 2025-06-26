@@ -1,9 +1,11 @@
+client:
+  apikey: "password"
 db:
-  host: DBCRED
-  port: DBCRED
-  name: DBCRED
-  username: DBCRED
-  password: DBCRED
+  host: localhost
+  port: 5432
+  name: provenance
+  username: postgres
+  password: postgres
 spring:
   datasource:
     driver-class-name: "org.postgresql.Driver"
@@ -30,13 +32,13 @@ logging:
 jenkins:
   host: https://jenkins.services.ai4os.eu
 mlflow:
-  host: https://mlflow.cloud.ai4eosc.eu
-  credentials:
-    username: SECRET
-    password: SECRET
+  ai4eosc:
+    host: https://mlflow.cloud.ai4eosc.eu
+  imagine:
+    host: http://mlflow.cloud.imagine-ai.eu/
 nomad:
   host: https://api.cloud.ai4eosc.eu
   fullInfo: true
   credentials:
-    token: SECRET
-    vo: SECRET
+    token: 2f94d8f880ac44de741ec4806bedf11a53e79844a22b3f0dc8ab4db22d350cfb
+    vo: ifca

@@ -1,0 +1,418 @@
+{
+  "origins": {
+    "organization": {
+      "id": "AI4EOSC"
+    },
+    "jenkins": {
+      "id": "Jenkins"
+    },
+    "mlflow": {
+      "id": "MLflow"
+    },
+    "nomad": {
+      "id": "Nomad"
+    }
+  },
+  "nomad": {
+    "name": "module-f4b9c17a-1077-11f0-9e04-0242ac120002",
+    "owner": "43f4e666c4a4625375b3acb679a86ac238ca97dcee169a56b79bc10ff31299ed@egi.eu",
+    "title": "turquoise_stoat",
+    "job_ID": "f4b9c17a-1077-11f0-9e04-0242ac120002",
+    "origin": "Nomad",
+    "status": "running",
+    "alloc_ID": "66f3c6d7-48a8-f5bb-b864-a647ac92897f",
+    "alloc_end": "2025-04-11T12:00:040000Z",
+    "endpoints": {
+      "api": "http://api-f4b9c17a-1077-11f0-9e04-0242ac120002.ifca-deployments.cloud.ai4eosc.eu/ui",
+      "ide": "http://ide-f4b9c17a-1077-11f0-9e04-0242ac120002.ifca-deployments.cloud.ai4eosc.eu",
+      "custom": "http://custom-f4b9c17a-1077-11f0-9e04-0242ac120002.ifca-deployments.cloud.ai4eosc.eu",
+      "monitor": "http://monitor-f4b9c17a-1077-11f0-9e04-0242ac120002.ifca-deployments.cloud.ai4eosc.eu"
+    },
+    "namespace": "ai4eosc",
+    "resources": {
+      "cpu_MHz": 8000,
+      "cpu_num": 4,
+      "disk_MB": 10000,
+      "gpu_num": 0,
+      "memory_MB": 8000
+    },
+    "datacenter": "ifca-ai4eosc",
+    "alloc_start": "2025-04-03T10:42:33.764240116Z",
+    "description": "",
+    "submit_time": "2025-04-03 10:39:45",
+    "docker_image": "ai4oshub/ai4os-demo-app:latest",
+    "applicationId": "ai4os-demo-app",
+    "main_endpoint": "ide",
+    "docker_command": "deep-start --jupyter",
+    "active_endpoints": null
+  },
+  "mlflow": {
+    "run": {
+      "data": {
+        "tags": [
+          {
+            "key": "mlflow.user",
+            "runId": "5e96fe940dca470aa7d6c16620e82c35",
+            "value": "iheredia@ifca.unican.es"
+          },
+          {
+            "key": "mlflow.source.name",
+            "runId": "5e96fe940dca470aa7d6c16620e82c35",
+            "value": "/home/iheredia/anaconda3/bin/deepaas-run"
+          },
+          {
+            "key": "mlflow.source.type",
+            "runId": "5e96fe940dca470aa7d6c16620e82c35",
+            "value": "LOCAL"
+          },
+          {
+            "key": "mlflow.runName",
+            "runId": "5e96fe940dca470aa7d6c16620e82c35",
+            "value": "provenance demo run (DO NOT DELETE)"
+          }
+        ],
+        "params": [
+          {
+            "key": "epochs",
+            "runId": "5e96fe940dca470aa7d6c16620e82c35",
+            "value": "10"
+          }
+        ],
+        "metrics": [
+          {
+            "key": "train_loss",
+            "step": 9,
+            "runId": "5e96fe940dca470aa7d6c16620e82c35",
+            "value": -2.4484468,
+            "timestamp": 1746723405168
+          },
+          {
+            "key": "train_accuracy",
+            "step": 9,
+            "runId": "5e96fe940dca470aa7d6c16620e82c35",
+            "value": 0.9037422,
+            "timestamp": 1746723405664
+          }
+        ]
+      },
+      "info": {
+        "run_id": "5e96fe940dca470aa7d6c16620e82c35",
+        "status": "FINISHED",
+        "user_id": "iheredia@ifca.unican.es",
+        "end_time": 1746723406138,
+        "run_name": "provenance demo run (DO NOT DELETE)",
+        "run_uuid": "5e96fe940dca470aa7d6c16620e82c35",
+        "start_time": 1746723384668,
+        "artifact_uri": "mlflow-artifacts:/134/5e96fe940dca470aa7d6c16620e82c35/artifacts",
+        "experiment_id": "134",
+        "lifecycle_stage": "active"
+      },
+      "inputs": {}
+    },
+    "name": "ai4os-demo-app",
+    "tags": null,
+    "origin": "MLflow",
+    "applicationId": "ai4os-demo-app",
+    "creation_time": 1746723383340,
+    "experiment_id": "134",
+    "lifecycle_stage": "active",
+    "last_update_time": 1746723383340,
+    "artifact_location": "mlflow-artifacts:/134"
+  },
+  "details": {
+    "id": "ai4os-demo-app",
+    "doi": "https://doi.org/10.5281/zenodo.13343448",
+    "tags": ["demo", "general purpose"],
+    "dates": { "created": "2024-04-18", "updated": "2025-05-09" },
+    "links": {
+      "dataset": "http://add-some-url-pointing-to-your-dataset.com",
+      "weights": "http://add-some-weights-url.com",
+      "cicd_url": "https://jenkins.services.ai4os.eu/job/ai4os-hub/job/ai4os-demo-app/job/main/",
+      "citation": "https://doi.org/10.5281/zenodo.13343448",
+      "base_model": "http://add-some-link-to-another-model.com",
+      "cicd_badge": "https://jenkins.services.ai4os.eu/buildStatus/icon?job=ai4os-hub/ai4os-demo-app/main",
+      "source_code": "https://github.com/ai4os-hub/ai4os-demo-app",
+      "ai4_template": "ai4-template/2.0.0",
+      "docker_image": "ai4oshub/ai4os-demo-app",
+      "documentation": "http://add-some-documentation.com"
+    },
+    "tasks": ["Other"],
+    "title": "ai4os-demo-app",
+    "origin": "AI4EOSC",
+    "license": "MIT",
+    "summary": "A toy application for demo and testing purposes. We just implement dummy inference/training, ie. we return the same inputs we are fed. The module does not contain any AI code.",
+    "data-type": ["Other"],
+    "libraries": ["Other"],
+    "resources": {
+      "inference": {
+        "cpu": 2,
+        "gpu": 1,
+        "memory_MB": 1000,
+        "storage_MB": 1000,
+        "gpu_memory_MB": 1000,
+        "gpu_compute_capability": 100.0
+      }
+    },
+    "categories": ["AI4 trainable", "AI4 pre trained", "AI4 inference"],
+    "provenance": {
+      "nomad_job": "f4b9c17a-1077-11f0-9e04-0242ac120002",
+      "mlflow_run": "5e96fe940dca470aa7d6c16620e82c35"
+    },
+    "description": "It can serve as a reference implementation of current best practices in the project (mirroring the [DEEP template](https://github.com/ai4os/ai4-template)).\n\nThis demo module implements:\n* **dummy inference**, ie. we return the same inputs we are fed. If some input is not fed we generate a default one.\n* **dummy training**, ie. we sleep for some time and output some random monitoring metrics.\n\nThe two branches in this repo cover the two main usecases:\n* `master`: this is a reference implementation on how to return a JSON response for predict().\n* `return-files`: this is a reference implementation on how to return non-JSON responses for predict().\n\nThis is particularly useful when returning:\n- long responses (that could better fit better in a txt file),\n- media files (eg. returning an image),\n- multiple files (for example returning an image and a text file at the same time, packing them into a zip file).",
+    "metadata_version": "2.0.0"
+  },
+  "jenkins": {
+    "id": {
+      "buildId": 51,
+      "jobName": "ai4os-demo-app",
+      "jobGroup": "AI4OS-hub",
+      "jobBranch": "main"
+    },
+    "label": "main",
+    "trace": {
+      "stages": [
+        {
+          "id": "6",
+          "name": "Declarative: Checkout SCM",
+          "endTime": 1746779864463,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 5541,
+          "startTime": 1746779858922,
+          "properties": {}
+        },
+        {
+          "id": "16",
+          "name": "Metadata tests",
+          "endTime": 1746779877544,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 5082,
+          "startTime": 1746779872462,
+          "properties": {}
+        },
+        {
+          "id": "26",
+          "name": "AI4OS Hub metadata V1 validation",
+          "endTime": 1746779952666,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 75122,
+          "startTime": 1746779877544,
+          "properties": {}
+        },
+        {
+          "id": "28",
+          "name": "AI4OS Hub metadata V2 validation (JSON)",
+          "endTime": 1746779943383,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 64664,
+          "startTime": 1746779878719,
+          "properties": {}
+        },
+        {
+          "id": "30",
+          "name": "AI4OS Hub metadata V2 validation (YAML)",
+          "endTime": 1746779960647,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 80370,
+          "startTime": 1746779880277,
+          "properties": {}
+        },
+        {
+          "id": "32",
+          "name": "License validation",
+          "endTime": 1746779899146,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 17410,
+          "startTime": 1746779881736,
+          "properties": {}
+        },
+        {
+          "id": "132",
+          "name": "Check if only metadata files have changed",
+          "endTime": 1746779967630,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 3518,
+          "startTime": 1746779964112,
+          "properties": {}
+        },
+        {
+          "id": "141",
+          "name": "User-defined module pipeline job",
+          "endTime": 1746780417766,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 449569,
+          "startTime": 1746779968197,
+          "properties": {}
+        },
+        {
+          "id": "150",
+          "name": "Docker build and delivery",
+          "endTime": 1746780419725,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 1050,
+          "startTime": 1746780418675,
+          "properties": {}
+        },
+        {
+          "id": "152",
+          "name": "Docker Variable initialization",
+          "endTime": 1746780426530,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 6805,
+          "startTime": 1746780419725,
+          "properties": {}
+        },
+        {
+          "id": "168",
+          "name": "AI4OS Hub Docker images build",
+          "endTime": 1746780645873,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 218206,
+          "startTime": 1746780427667,
+          "properties": {}
+        },
+        {
+          "id": "196",
+          "name": "AI4OS Hub Docker delivery to registry",
+          "endTime": 1746780678562,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 31450,
+          "startTime": 1746780647112,
+          "properties": {
+            "appDockerDeliveryHash": "sha256:11885396d5afed8b07fa3b7900bd94352db900d1a2b50cdaa8bd989f6d78b2f0"
+          }
+        },
+        {
+          "id": "226",
+          "name": "Update Catalog page",
+          "endTime": 1746780689036,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 8882,
+          "startTime": 1746780680154,
+          "properties": {}
+        },
+        {
+          "id": "244",
+          "name": "Update OSCAR services",
+          "endTime": 1746780723421,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 33018,
+          "startTime": 1746780690403,
+          "properties": {}
+        },
+        {
+          "id": "285",
+          "name": "Declarative: Post Actions",
+          "endTime": 1746780726150,
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "duration": 1875,
+          "startTime": 1746780724275,
+          "properties": {}
+        }
+      ],
+      "status": "SUCCESS",
+      "endTime": 1746779846949,
+      "startTime": 1746779846949,
+      "changesets": [
+        {
+          "repo": "ai4os-demo-app",
+          "group": "ai4os-hub",
+          "paths": ["Dockerfile", "requirements.txt"],
+          "commit": "f2e8b76d90a787796cbc49b73bff181a41c06a78",
+          "comment": "build: use mlflow-skinny to reduce dependency conflicts\n",
+          "jenkins": {
+            "buildId": 51,
+            "jobName": "ai4os-demo-app",
+            "jobGroup": "AI4OS-hub",
+            "jobBranch": "main"
+          },
+          "authorURL": "https://jenkins.services.ai4os.eu/user/ignacioheredia",
+          "timeStamp": 1746779823000,
+          "authorName": "Ignacio Heredia",
+          "authorEmail": "iheredia@ifca.unican.es"
+        }
+      ],
+      "jenkinsUrl": "https://jenkins.services.ai4os.eu/job/AI4OS-hub/job/ai4os-demo-app/job/main/51/"
+    },
+    "gitUrl": null,
+    "origin": "Jenkins",
+    "uniqueId": "AI4OS-hub/main/ai4os-demo-app/51",
+    "fullLabel": "AI4OS Hub Building (QA) » ai4os-demo-app » main #51",
+    "jenkinsUrl": "https://jenkins.services.ai4os.eu/job/AI4OS-hub/job/ai4os-demo-app/job/main/",
+    "applicationId": "ai4os-demo-app"
+  }
+}

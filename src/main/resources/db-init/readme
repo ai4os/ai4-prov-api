@@ -1,0 +1,3 @@
+DB-INIT FileSystem
+
+Files stored here are used in the default types created in "types" table in database.

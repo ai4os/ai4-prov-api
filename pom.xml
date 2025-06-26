@@ -50,6 +50,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>1.18.3</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- ai4eosc-prov-fetcher (end) -->
 		<!-- ai4eosc-prov-tracker (start) -->
 		<dependency>

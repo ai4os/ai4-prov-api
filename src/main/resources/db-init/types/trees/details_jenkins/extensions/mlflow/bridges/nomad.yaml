@@ -1,0 +1,14 @@
+# Bridge file (details_jenkins_mlflow_nomad) this file will be used when mlflow and nomad will be in the same RML
+bridges:
+  - index: 173
+    bridge: |
+      rr:predicateObjectMap [
+        rr:predicate prov:wasGeneratedBy ;
+        rr:objectMap [
+            rr:parentTriplesMap <#NomadJob> ;
+            rr:joinCondition [
+                rr:child "$.applicationId";
+                rr:parent "$.applicationId"
+            ]
+        ]
+      ] ;

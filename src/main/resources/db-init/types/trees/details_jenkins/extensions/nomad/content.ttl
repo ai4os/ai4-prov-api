@@ -1,0 +1,218 @@
+<#NomadLogicalSource>
+    rml:source [
+        a carml:Stream;
+        carml:streamName "nomad";
+    ];
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$"
+.
+
+<#NomadAgent> a rr:TriplesMap ;
+    rml:logicalSource <#NomadLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://ai4os.eu/agent/{origin}" ;
+        rr:class prov:Agent
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "{origin}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate prov:actedOnBehalfOf;
+        rr:objectMap [
+            rr:parentTriplesMap <#OrganizationAgent>;
+            rr:joinCondition [
+                rr:child "origin" ;
+                rr:parent "nomad.id"
+            ]
+        ]
+   ]
+.
+
+<#NomadJob> a rr:TriplesMap ;
+    rml:logicalSource <#NomadLogicalSource> ;
+
+    rr:subjectMap [
+        rr:template "http://nomad.services.ai4os.eu/{job_ID}";
+        rr:class prov:Entity
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:tag;
+        rr:objectMap [
+            rr:template "Nomad Job - {job_ID}";
+            rr:termType rr:Literal
+        ]
+   ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:wasAttributedTo ;
+        rr:objectMap [
+          rr:parentTriplesMap <#NomadAgent> ;
+        ]
+    ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate dc:title;
+        rr:objectMap [
+            rml:reference "name";
+            rr:termType rr:Literal;
+            rr:datatype xsd:string;
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:status;
+        rr:objectMap [
+            rml:reference "status";
+            rr:termType rr:Literal;
+            rr:datatype xsd:string;
+        ]
+   ] ;
+
+   rr:predicateObjectMap [
+        rr:predicate ex:owner;
+        rr:objectMap [
+            rml:reference "owner";
+            rr:termType rr:Literal;
+            rr:datatype xsd:string;
+        ]
+   ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate schema:description;
+    rr:objectMap [
+    	rml:reference "description";
+    	rr:termType rr:Literal;
+    	rr:datatype xsd:string;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate schema:description;
+    rr:objectMap [
+      	rml:reference "description";
+      	rr:termType rr:Literal;
+      	rr:datatype xsd:string;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:dockerimage;
+    rr:objectMap [
+        	rml:reference "docker_image";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:string;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:dockercommand;
+    rr:objectMap [
+        	rml:reference "docker_command";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:string;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate prov:generatedAtTime ;
+    rr:objectMap [
+        	rml:reference "submit_time";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:dateTime;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:cpuCores ;
+    rr:objectMap [
+        	rml:reference "resources.cpu_num";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:integer;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:cpuMHzFreq ;
+    rr:objectMap [
+        	rml:reference "resources.cpu_MHz";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:integer;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:gpuNum ;
+    rr:objectMap [
+        	rml:reference "resources.gpu_num";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:integer;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:memoryMB ;
+    rr:objectMap [
+        	rml:reference "resources.memory_MB";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:integer;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:diskMB ;
+    rr:objectMap [
+        	rml:reference "resources.disk_MB";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:integer;
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate ex:endpoints ;
+    rr:objectMap [
+        	rml:reference "endpoints.*";
+        	rr:termType rr:Literal;
+        	rr:datatype xsd:string;
+    ]
+  ] ;
+
+   rr:predicateObjectMap [
+     rr:predicate dc:creator ;
+     rr:objectMap [
+         	rml:reference "datacenter";
+         	rr:termType rr:Literal;
+         	rr:datatype xsd:string;
+     ]
+   ] ;
+
+   #used
+    rr:predicateObjectMap [
+        rr:predicate prov:used ;
+        rr:objectMap [
+            rr:parentTriplesMap <#Dataset> ;
+            rr:joinCondition [
+                rr:child "$.applicationId";
+                rr:parent "$.id"
+            ]
+        ]
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate prov:used ;
+        rr:objectMap [
+            rr:parentTriplesMap <#SourceCode> ;
+            rr:joinCondition [
+                rr:child "$.applicationId";
+                rr:parent "$.id"
+            ]
+        ]
+    ] ;
+.

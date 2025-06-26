@@ -1,0 +1,14 @@
+# Bridge file its always used because it creates the bridges between the core RML (details_jenkins) with nomad
+bridges:
+  - index: 378
+    bridge: |
+      rr:predicateObjectMap [
+        rr:predicate prov:wasGeneratedBy ;
+        rr:objectMap [
+            rr:parentTriplesMap <#NomadJob> ;
+            rr:joinCondition [
+                rr:child "$.id";
+                rr:parent "$.applicationId"
+            ]
+        ]
+      ] ;

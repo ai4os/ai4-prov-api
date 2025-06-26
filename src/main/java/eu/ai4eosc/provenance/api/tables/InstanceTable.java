@@ -2,13 +2,13 @@ package eu.ai4eosc.provenance.api.tables;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.ai4eosc.provenance.api.models.Instance;
+import eu.ai4eosc.provenance.api.tables.dto.Instance;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 
 import java.io.UncheckedIOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
@@ -18,7 +18,7 @@ public class InstanceTable {
 	static final String TABLE_NAME = "instances";
 	static final Field<String> ID_FIELD = DSL.field("id", String.class);
 	static final Field<String> TYPE_FIELD = DSL.field("type", String.class);
-	static final Field<LocalDate> CREATION_DATE_FIELD = DSL.field("cdate", LocalDate.class);
+	static final Field<LocalDateTime> CREATION_DATE_FIELD = DSL.field("cdate", LocalDateTime.class);
 	static final Field<JSONB> DATA_FIELD = DSL.field("data", SQLDataType.JSONB);
 	
 	public static Optional<Instance> find(DSLContext dsl, String type, String id) {
@@ -29,8 +29,21 @@ public class InstanceTable {
 		return Optional.ofNullable(result)
 			.map(Result::instance);
 	}
-	
-	record Result (String type, String id, LocalDate creationDate, JSONB data) {
+
+	public static Optional<Instance> findMoreRecent(DSLContext dsl, String id) {
+		var subquery = dsl.select(DSL.max(CREATION_DATE_FIELD))
+				.from(TABLE_NAME)
+				.where(ID_FIELD.eq(id));
+
+		var result = dsl.select(TYPE_FIELD, ID_FIELD, CREATION_DATE_FIELD, DATA_FIELD)
+				.from(TABLE_NAME)
+				.where(ID_FIELD.eq(id).and(CREATION_DATE_FIELD.eq(subquery)))
+				.fetchOne(Records.mapping(Result::new));
+
+		return Optional.ofNullable(result)
+				.map(Result::instance);
+	}
+	record Result (String type, String id, LocalDateTime creationDate, JSONB data) {
 
 		public Instance instance() {
             try {
@@ -58,7 +71,7 @@ public class InstanceTable {
 			var table = table(dsl);
 			return dsl
 					.insertInto(table, TYPE_FIELD, ID_FIELD, CREATION_DATE_FIELD, DATA_FIELD)
-					.values(instance.type(), instance.id(), LocalDate.now(), data)
+					.values(instance.type(), instance.id(), LocalDateTime.now(), data)
 					.onConflict(TYPE_FIELD, ID_FIELD)
 					.doUpdate()
 					.set(DATA_FIELD, data)

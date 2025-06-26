@@ -1,0 +1,3 @@
+logging:
+  level:
+    eu.ai4eosc.provenance.api: DEBUG

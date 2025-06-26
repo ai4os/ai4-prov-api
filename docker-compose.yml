@@ -2,12 +2,13 @@ services:
   provapi:
     build:
       context: .
-    environment: 
+    environment: # does not load correctly the env variables dont know why
       - 'DB_HOST=db'
       - 'DB_PORT=5432'
       - 'DB_USERNAME=docker'
       - 'DB_PASSWORD=docker'
       - 'DB_NAME=provenance'
+      - 'CLIENT_APIKEY=password-example'
 
     ports: ['8080:8080']
     depends_on:

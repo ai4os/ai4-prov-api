@@ -1,127 +1,140 @@
 package eu.ai4eosc.provenance.api.tables;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-import static eu.ai4eosc.provenance.api.models.Type.MappingFormat.TURTLE;
+import static eu.ai4eosc.provenance.api.tables.dto.Type.MappingFormat.TURTLE;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.ai4eosc.provenance.api.models.Type;
-import eu.ai4eosc.provenance.api.models.Type.MappingFormat;
+import eu.ai4eosc.provenance.api.tables.dto.Type;
+import eu.ai4eosc.provenance.api.tables.dto.Type.MappingFormat;
+import eu.ai4eosc.provenance.api.tables.rmlbuilder.RMLBuilder;
+import eu.ai4eosc.provenance.api.tables.rmlbuilder.RMLStruct;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
-import org.springframework.core.io.ClassPathResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UncheckedIOException;
-import java.util.Optional;
-
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TypeTable {
-	static final String TABLE_NAME = "types";
-	
-	static final Field<String> ID_FIELD = DSL.field("id", String.class);
-	static final Field<JSONB> SCHEMA_FIELD = DSL.field("data", SQLDataType.JSONB);
-	static final Field<String> MAPPING_FIELD = DSL.field("mapping", SQLDataType.CLOB);
-	static final Field<String> MAPPING_FORMAT_FIELD = DSL.field("mapping_format", String.class);
+    static final Logger log = LoggerFactory.getLogger(TypeTable.class);
+    static final String TABLE_NAME = "types";
 
-	public static void initDefaultTypes(DSLContext dsl) {
-		// Loads jenkins_mlflow validation schema
-		try {
-			String pathJSONSchema = "/dbinit/jenkins-mlflow/jsonschema/validate.json";
-			InputStream jenkinsMlflowMetadataSchema = new ClassPathResource(pathJSONSchema).getInputStream();
-			ObjectMapper objectMapper = new ObjectMapper();
+    static final Field<String> ID_FIELD = DSL.field("id", String.class);
+    static final Field<JSONB> ORIGINS_FIELD = DSL.field("origins", SQLDataType.JSONB);
+    static final Field<String> MAPPING_FIELD = DSL.field("mapping", SQLDataType.CLOB);
+    static final Field<String> MAPPING_FORMAT_FIELD = DSL.field("mapping_format", String.class);
+    static final Pattern PROVENANCE_TYPE_ID_PATTERN = Pattern.compile("provenance\\((.*)\\)");
 
-			JsonNode jsonSchemaNode = objectMapper.readTree(jenkinsMlflowMetadataSchema);
+    static Map<Set<String>, String> provenanceIds = new HashMap<>();
 
-			// Store jenkins-mlflow-details RML
-			String jenkinsMLflowDetailsRMLPath = "/dbinit/jenkins-mlflow/rml/rml.ttl";
-			InputStream jenkinsMlflowRML = new ClassPathResource(jenkinsMLflowDetailsRMLPath).getInputStream();
-			String jenkinsMlflowRMLString = new String(jenkinsMlflowRML.readAllBytes(), UTF_8);
-			Type jenkinsMlflowRMLType = new Type("details_jenkins_mlflow", jsonSchemaNode, jenkinsMlflowRMLString, TURTLE);
-			TypeTable.upsert(dsl, jenkinsMlflowRMLType);
+    public static String getProvenanceIdFromSourceList(List<String> sources) {
+        log.info("searching for a provenance with sources: {}", sources);
+        return provenanceIds.get(new HashSet<>(sources));
+    }
 
-			// Store Fair4ML (rml mapping)
-			String fair4MLRMLPath = "/dbinit/fair4ml/rml/rml.ttl";
-			InputStream fair4MLRML = new ClassPathResource(fair4MLRMLPath).getInputStream();
-			String fair4MLRMLString = new String(fair4MLRML.readAllBytes(), UTF_8);
-			Type fair4MLRMLType = new Type("details_fair4ml", null, fair4MLRMLString, TURTLE);
-			TypeTable.upsert(dsl, fair4MLRMLType);
+    private static void saveRMLinDB(DSLContext dsl,
+                                    Type newType) {
+        String newTypeId = newType.id();
+        Matcher matcher = PROVENANCE_TYPE_ID_PATTERN.matcher(newTypeId);
+        if (matcher.find()) {
+            String[] sources = matcher.group(1).split("_");
+            provenanceIds.put(new HashSet<>(Arrays.asList(sources)), newTypeId);
+        }
+        TypeTable.upsert(dsl, newType);
 
-			// Store details-jenkins-mlflow-nomad
-			String detailsJenkinsMlflowNomadRMLPath = "/dbinit/jenkins-mlflow-nomad/rml/rml.ttl";
-			InputStream detailsJenkinsMlflowNomadRML = new ClassPathResource(detailsJenkinsMlflowNomadRMLPath).getInputStream();
-			String detailsJenkinsMlflowNomadRMLString = new String(detailsJenkinsMlflowNomadRML.readAllBytes(), UTF_8);
-			Type detailsJenkinsMlflowNomadRMLType = new Type("details_jenkins_mlflow_nomad", null, detailsJenkinsMlflowNomadRMLString, TURTLE);
-			TypeTable.upsert(dsl, detailsJenkinsMlflowNomadRMLType);
+    }
 
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-	public static Optional<Type> find(DSLContext dsl, String id) {
-		var result = dsl.select(ID_FIELD, SCHEMA_FIELD, MAPPING_FIELD, MAPPING_FORMAT_FIELD)
-			.from(TABLE_NAME)
-			.where(ID_FIELD.eq(id))
-			.fetchOne(Records.mapping(Result::new));
-		return Optional.ofNullable(result).map(Result::type);
-	}
-	
-	record Result (String id, JSONB schema, String mapping, String mappingFormat) {
+    static void saveProvenanceRML(DSLContext dsl,
+                           RMLBuilder rmlBuilder,
+                           String coreId, List<String> extensions) throws IOException {
+        RMLStruct rmlStruct = rmlBuilder.buildProvenanceRML(coreId, extensions);
+        String rmlId = coreId;
+        if (!extensions.isEmpty()) {
+            String extensionString = String.join("_", extensions);
+            rmlId = coreId + '_' + extensionString;
+        }
+        saveRMLinDB(dsl, new Type("provenance(%s)".formatted(rmlId),
+                rmlStruct.origins(),
+                rmlStruct.rmlContent(), TURTLE));
+    }
+    public static void initDefaultTypes(DSLContext dsl) throws IOException {
+        final String coreIdDetailsJenkins = "details_jenkins";
+        // Saving provenance RMLs
+        RMLBuilder rmlBuilder = new RMLBuilder();
+        saveProvenanceRML(dsl, rmlBuilder, coreIdDetailsJenkins, List.of());
+        saveProvenanceRML(dsl, rmlBuilder, coreIdDetailsJenkins, List.of("mlflow"));
+        saveProvenanceRML(dsl, rmlBuilder, coreIdDetailsJenkins, List.of("nomad"));
+        saveProvenanceRML(dsl, rmlBuilder, coreIdDetailsJenkins, List.of("mlflow", "nomad"));
 
-		public Type type() {
+        // Other RMLs (just fair4ml for now)
+        RMLStruct fair4mlStruct = rmlBuilder.buildSingleRML("fair4ml");
+        saveRMLinDB(dsl, new Type("details_to_fair4ml", null, fair4mlStruct.rmlContent(), TURTLE));
+    }
+
+    public static Optional<Type> find(DSLContext dsl, String id) {
+        var result = dsl.select(ID_FIELD, ORIGINS_FIELD, MAPPING_FIELD, MAPPING_FORMAT_FIELD)
+                .from(TABLE_NAME)
+                .where(ID_FIELD.eq(id))
+                .fetchOne(Records.mapping(Result::new));
+        return Optional.ofNullable(result).map(Result::type);
+    }
+
+    record Result(String id, JSONB origins, String mapping, String mappingFormat) {
+
+        public Type type() {
             try {
-				var schemaTree = schema != null ?
-						MAPPER.readTree(schema.data()) : null;
-				var format = Optional.ofNullable(mappingFormat).map(MappingFormat::valueOf).orElse(null);
-				return new Type(id, schemaTree, mapping, format);
+                var originsTree = origins != null ? MAPPER.readTree(origins.data()) : null;
+                var format = Optional.ofNullable(mappingFormat).map(MappingFormat::valueOf).orElse(null);
+                return new Type(id, originsTree, mapping, format);
             } catch (JsonProcessingException e) {
                 throw new UncheckedIOException(e);
             }
-		}
-		
-	}
+        }
 
-	static Table<?> table(DSLContext dsl){
-		return dsl.meta(createTableIfNotExists(dsl))
-				.getTables(TABLE_NAME).stream()
-				.findAny()
-				.orElseThrow();
-	}
+    }
 
-	public static int upsert(DSLContext dsl, Type type) {
+    static Table<?> table(DSLContext dsl) {
+        return dsl.meta(createTableIfNotExists(dsl))
+                .getTables(TABLE_NAME).stream()
+                .findAny()
+                .orElseThrow();
+    }
+
+    public static int upsert(DSLContext dsl, Type type) {
         try {
-            var schema = type.schema() != null ?
-					JSONB.valueOf(MAPPER.writeValueAsString(type.schema())) : null;
-			var format = Optional.ofNullable(type.mappingFormat()).map(MappingFormat::name).orElse(null);
-			var table = table(dsl);
-			return dsl
-					.insertInto(table, ID_FIELD, SCHEMA_FIELD, MAPPING_FIELD, MAPPING_FORMAT_FIELD)
-					.values(type.id(), schema, type.mapping(), format)
-					.onConflict(ID_FIELD)
-					.doUpdate()
-					.set(SCHEMA_FIELD, schema)
-					.set(MAPPING_FIELD, type.mapping())
-					.set(MAPPING_FORMAT_FIELD, format)
-					.execute();
+            var origins = type.origins() != null ? JSONB.valueOf(MAPPER.writeValueAsString(type.origins())) : null;
+            var format = Optional.ofNullable(type.mappingFormat()).map(MappingFormat::name).orElse(null);
+            var table = table(dsl);
+            return dsl
+                    .insertInto(table, ID_FIELD, ORIGINS_FIELD, MAPPING_FIELD, MAPPING_FORMAT_FIELD)
+                    .values(type.id(), origins, type.mapping(), format)
+                    .onConflict(ID_FIELD)
+                    .doUpdate()
+                    .set(ORIGINS_FIELD, origins)
+                    .set(MAPPING_FIELD, type.mapping())
+                    .set(MAPPING_FORMAT_FIELD, format)
+                    .execute();
         } catch (JsonProcessingException e) {
             throw new UncheckedIOException(e);
         }
-	}
+    }
 
-	public static Query createTableIfNotExists(DSLContext dsl) {
-		return dsl.createTableIfNotExists(TABLE_NAME)
-			.column(ID_FIELD)
-			.column(SCHEMA_FIELD)
-			.column(MAPPING_FIELD)
-			.column(MAPPING_FORMAT_FIELD)
-			.constraint(DSL.primaryKey(ID_FIELD.getName()));
-	}
-	
-	private static final ObjectMapper MAPPER = new ObjectMapper()
-			.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
-	
+    public static Query createTableIfNotExists(DSLContext dsl) {
+        return dsl.createTableIfNotExists(TABLE_NAME)
+                .column(ID_FIELD)
+                .column(ORIGINS_FIELD)
+                .column(MAPPING_FIELD)
+                .column(MAPPING_FORMAT_FIELD)
+                .constraint(DSL.primaryKey(ID_FIELD.getName()));
+    }
+
+    private static final ObjectMapper MAPPER = new ObjectMapper()
+            .configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+
 }

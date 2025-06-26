@@ -2,7 +2,6 @@ package eu.ai4eosc.provenance.api.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -27,16 +26,6 @@ public class DataMap implements AutoCloseable {
         return data;
     }
 
-    public static DataMap simpleLookup(JsonNode data) throws IOException {
-        var result = new HashMap<String, InputStream>();
-        Iterator<Map.Entry<String, JsonNode>> properties = data.fields();
-        while (properties.hasNext()) {
-            Map.Entry<String, JsonNode> prop = properties.next();
-            result.put(prop.getKey(), new ByteArrayInputStream(MAPPER.writeValueAsString(prop.getValue()).getBytes(UTF_8)));
-        }
-        return new DataMap(result);
-    }
-
     public static DataMap lookup(JsonNode data) throws IOException {
         var result = new HashMap<String, InputStream>();
         Iterator<Map.Entry<String, JsonNode>> properties = data.fields();
@@ -44,9 +33,6 @@ public class DataMap implements AutoCloseable {
             Map.Entry<String, JsonNode> prop = properties.next();
             result.put(prop.getKey(), new ByteArrayInputStream(MAPPER.writeValueAsString(prop.getValue()).getBytes(UTF_8)));
         }
-        // TODO:  Change to make it dynamic maybe with a row for constants in types table
-        var constantsJson = new ClassPathResource("/dbinit/jenkins-mlflow/rmlconstants/constantsrml.json").getInputStream();
-        result.put("constants", constantsJson);
         return new DataMap(result);
     }
 
