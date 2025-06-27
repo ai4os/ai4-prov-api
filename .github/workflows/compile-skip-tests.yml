@@ -17,3 +17,9 @@ jobs:
       
       - name: Compile with Maven (skip tests)
         run: mvn clean install -DskipTests
+      
+      - name: Upload JAR as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-jar
+          path: target/ProvenanceAPI-1.0.jar

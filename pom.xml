@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>eu.ai4eosc.provenance</groupId>
-	<artifactId>ProvAPI</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>ProvenanceAPI</artifactId>
+	<version>1.0</version>
 	<name>ProvAPI</name>
 	<description>Provenance API for the AI4EOSC project</description>
 	<properties>
