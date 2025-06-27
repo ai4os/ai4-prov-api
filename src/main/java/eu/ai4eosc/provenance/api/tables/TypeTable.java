@@ -34,7 +34,7 @@ public class TypeTable {
     static Map<Set<String>, String> provenanceIds = new HashMap<>();
 
     public static String getProvenanceIdFromSourceList(List<String> sources) {
-        log.info("searching for a provenance with sources: {}", sources);
+        log.info("trying to search for a provenance with sources: {}", sources);
         return provenanceIds.get(new HashSet<>(sources));
     }
 

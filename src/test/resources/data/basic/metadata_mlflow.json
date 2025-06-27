@@ -1,9 +1,0 @@
-{
-  "experiment_id": "6",
-  "artifact_location": "mlflow-artifacts:/6",
-  "lifecycle_stage": "active",
-  "last_update_time": 1699288257827,
-  "creation_time": 1699288257827,
-  "name": "dogs-breed-detector",
-  "tags": null
-}

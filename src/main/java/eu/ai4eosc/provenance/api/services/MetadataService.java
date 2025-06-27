@@ -36,7 +36,7 @@ public class MetadataService {
     }
 
     public void upsertInstance(String typeId, String id, JsonNode jsonData) throws TypeRMLNotFoundException {
-        log.info("upserting... {}", typeId);
+        log.info("trying to upsert... {}", typeId);
         Optional<Type> type = TypeTable.find(dsl, typeId);
         if (type.isEmpty()) throw new TypeRMLNotFoundException(typeId);
         InstanceTable.upsert(dsl, new Instance(typeId, id, LocalDateTime.now(), jsonData));
