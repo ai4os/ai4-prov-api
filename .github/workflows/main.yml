@@ -3,17 +3,14 @@ name: Build image
 # Note:
 # HARBOR_URL, HARBOR_USERNAME, HARBOR_TOKEN are defined at the organization level
 
-on:
-  workflow_run:
-    workflows: ["Compile and Upload Artifact"]
-    types:
-      - completed
+on: workflow_dispatch
 
 jobs:
   call-compile:
     uses: ./.github/workflows/compile-skip-tests.yml
-  build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  
+  build:    
+    needs: call-compile
     runs-on: ubuntu-latest
 
     steps:       
