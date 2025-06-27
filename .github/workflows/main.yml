@@ -6,6 +6,8 @@ name: Build image
 on: workflow_dispatch
 
 jobs:
+  call-compile:
+    uses: ./github/workflows/compile-skip-tests.yml
   build:
     runs-on: ubuntu-latest
 
