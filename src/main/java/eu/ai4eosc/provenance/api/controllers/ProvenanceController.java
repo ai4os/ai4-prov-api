@@ -7,8 +7,6 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.JsonNode;
 import eu.ai4eosc.provenance.api.controllers.schemas.input.FetchMetadataRequest;
 import eu.ai4eosc.provenance.api.controllers.schemas.input.LegacyFetchMetadataRequest;
-import eu.ai4eosc.provenance.api.controllers.schemas.input.credentials.Credentials;
-import eu.ai4eosc.provenance.api.controllers.schemas.input.servicesids.SourcesIDs;
 import eu.ai4eosc.provenance.api.controllers.schemas.output.ProvenanceDate;
 import eu.ai4eosc.provenance.api.controllers.schemas.output.ProvenanceGraph;
 import eu.ai4eosc.provenance.api.services.ProvenanceService;
@@ -32,7 +30,7 @@ public class ProvenanceController {
     @Autowired
     ProvenanceService provenanceService;
 
-    @PostMapping("/v0/meta-data")
+    @PostMapping("/v0/metadata")
     ResponseEntity<String> legacyFetchMetadata(
             @RequestBody LegacyFetchMetadataRequest request
             ) throws IOException, InterruptedException, URISyntaxException {
@@ -40,7 +38,7 @@ public class ProvenanceController {
         return ResponseEntity.ok("provenance fetched!");
     }
 
-    @PostMapping("/meta-data")
+    @PostMapping("/metadata")
     ResponseEntity<String> fetchMetadata(
             @RequestBody FetchMetadataRequest request
             ) throws IOException, InterruptedException, URISyntaxException {
@@ -48,7 +46,7 @@ public class ProvenanceController {
         return ResponseEntity.ok("fetching provenance...");
     }
 
-    @GetMapping("/provenance")
+    @GetMapping("/rdf")
     ResponseEntity<JsonNode> provenance(
             @RequestParam("applicationId") String applicationId,
             @RequestParam(name = "type", required = false) String typeId
@@ -62,7 +60,7 @@ public class ProvenanceController {
                 .body(rdf);
     }
 
-    @GetMapping("/provenance-date")
+    @GetMapping("/rdf-date")
     ResponseEntity<ProvenanceDate> provenanceDate(
             @RequestParam("applicationId") String applicationId,
             @RequestParam(name="type", required = false) String typeId
@@ -74,7 +72,7 @@ public class ProvenanceController {
     }
 
 
-    @GetMapping("/prov-graph")
+    @GetMapping("/rdf-graph")
     ResponseEntity<ProvenanceGraph> provenanceGraph(@RequestParam("applicationId") String applicationId,
                                                     @RequestParam(name = "type", required = false) String typeId
     ) throws IOException {
