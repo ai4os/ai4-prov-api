@@ -583,7 +583,7 @@
    rr:predicateObjectMap [
         rr:predicate ex:tag;
         rr:objectMap [
-            rr:template "Commit-{commit}";
+            rr:template "(grouped) Commit-{commit}";
             rr:termType rr:Literal
         ]
    ] ;
@@ -624,7 +624,7 @@
    rr:predicateObjectMap [
         rr:predicate ex:tag;
         rr:objectMap [
-            rr:template "Stage-{id}";
+            rr:template "(grouped) Stage-{id}";
             rr:termType rr:Literal
         ]
    ] ;
