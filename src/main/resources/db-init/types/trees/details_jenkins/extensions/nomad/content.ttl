@@ -68,15 +68,6 @@
    ] ;
 
    rr:predicateObjectMap [
-        rr:predicate ex:status;
-        rr:objectMap [
-            rml:reference "status";
-            rr:termType rr:Literal;
-            rr:datatype xsd:string;
-        ]
-   ] ;
-
-   rr:predicateObjectMap [
         rr:predicate ex:owner;
         rr:objectMap [
             rml:reference "owner";
@@ -172,15 +163,6 @@
         	rml:reference "resources.disk_MB";
         	rr:termType rr:Literal;
         	rr:datatype xsd:integer;
-    ]
-  ] ;
-
-  rr:predicateObjectMap [
-    rr:predicate ex:endpoints ;
-    rr:objectMap [
-        	rml:reference "endpoints.*";
-        	rr:termType rr:Literal;
-        	rr:datatype xsd:string;
     ]
   ] ;
 
