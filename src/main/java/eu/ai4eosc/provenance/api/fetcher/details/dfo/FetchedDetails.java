@@ -48,6 +48,7 @@ public record FetchedDetails(
     ) {
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public record Resources(Inference inference) {
         record Inference(Integer cpu,
                          Integer gpu,
