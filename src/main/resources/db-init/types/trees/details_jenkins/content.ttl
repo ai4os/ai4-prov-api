@@ -318,6 +318,13 @@
         rr:parentTriplesMap <#SourceCode> ;
     ]
   ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate prov:hadMember ;
+    rr:objectMap [
+        rr:parentTriplesMap <#Dataset> ;
+    ]
+  ] ;
 .
 
 # Members of application collection
