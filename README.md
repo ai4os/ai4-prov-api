@@ -2,48 +2,61 @@
 
 Provenance API is the core component of the provenance service within the AI4OS-HUB platform. The platform collects all provenance information related to a module or project and stores it in a postgreSQL database using a structured format based on JSON fragments.
 
-When provenance data is requested in RDF format, the platform reconstructs the RDF provenance by applying predefined RML (RDF Mapping Language) file (executed by the RML engine, carml) to the stored JSON fragments.
+When provenance data is requested in RDF format, the platform reconstructs the provenance RDF  by applying the rules defined in a RML (RDF Mapping Language) file (executed by the RML engine, carml) over the stored JSON fragments.
 
-## Project/module provenance
+## API BASIC Endpoints
 
-In order to get the provenance of a project.
+#### POST /meta-data
 
-First, you will need to send an HTTP POST to /metadata with a JSON in the request body. This will warn the provenance service, so it will gather all the metadata and save it in database.
+Uploads meta-data of a module to the provenance database.
 
-Structure of the JSON.
+Body of the HTTP POST
 ```
 {
-    "applicationId": "<module-name>",
-    "mlflowExperiment": {
-        "experimentId": "<mlflow-experiment-id>"
-    },
+   "sources": {
+    "applicationId": "<application-id>",
     "jenkinsWorkflow": {
-        "jobName": "<jenkins-job-name/module-name>",
-        "jobGroup": "<jenkins-job-group>",
-        "jobBranch": "<jenkins-branch>",
-        "execution": <build-number>
+        "name": "<application-id (in jenkins)>",
+        "group": "<jenkins-group>",
+        "branch": "<jenkins-branch>",
+        "build": <jenkins-build-number>
     }
+   },
+   "credentials": {
+        ...
+   }
 }
 ```
 
-E.g of ai4os-yolov8-torch project
+In the body you can specify
+* applicationId: the application you want to fetch metadata from
+* jenkinsWorkflow: the jenkins workflow of the application
+    * (name, group, branch, build): fields to select which workflow of jenkins you want to select
+* credentials, in case you're application have some metadata stored in a service with restricted access. you have to write here the credentials that provenance api will use for login in to that service. For example for MLFlow, you will have to write:
 ```
 {
-    "applicationId": "ai4os-yolov8-torch",
-    "mlflowExperiment": {
-        "experimentId": "yolov8_L"
-    },
-    "jenkinsWorkflow": {
-        "jobName": "ai4os-yolov8-torch",
-        "jobGroup": "AI4OS-hub",
-        "jobBranch": "main",
-        "execution": 46
-    }
+    ...
+
+   "credentials": {
+       "mlflow": {
+           "username": "<mlflow-user>",
+           "password": "<mlflow-password>"
+       }
+   }
 }
 ```
 
-The server will respond with a "metadata saved" message. After that, any HTTP GET request to `/provenance?applicationId=<module-name>`—where <module-name> matches the value provided in the applicationId field of your JSON fragment—will return the corresponding provenance in RDF format in the response body.
+Provenance API can access to `https://mlflow.cloud.ai4eosc.eu` and to `http://mlflow.cloud.imagine-ai.eu` as a fallback if the first domain fails. So the credentials user have to be a user of one of these severs.
 
-In the future, this process will be carried out automatically each time a Jenkins pipeline is executed. Jenkins will be responsible for sending the request to the provenance service using the appropriate IDs, which will be specified in a configuration file within each module/project repository.
+Once you send this request, Provenance API will search inside the `ai4-metadata.yml`of the application/module github repository and if it finds some services ids like nomad jobs or mlflows runs, It will add them to the metadata JSON along with the Jenkins and the application metadata (`metadata.json` file).
 
-There are some features that are in development such as nomad metadata or harbor metadata, if you want to use this features contact the author, castrop@predictia.es.
+### GET /rdf?applicationId=<applicationId>
+
+Generates the RDF provenance graph of the application built from the metadata fetched by the last `POST /meta-data` of the application.
+
+## What is Provenance API used for inside AI4EOSC?
+
+Provenance API is used along with Jenkins pipelines to generate a provenance RDF for every single module in the AI4EOSC platform.
+ 
+
+You can take a look to the provenance graph (visual representation of provenance RDF) of an application through AI4EOSC marketplace.

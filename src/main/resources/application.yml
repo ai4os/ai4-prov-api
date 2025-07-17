@@ -35,7 +35,7 @@ mlflow:
   ai4eosc:
     host: https://mlflow.cloud.ai4eosc.eu
   imagine:
-    host: http://mlflow.cloud.imagine-ai.eu/
+    host: http://mlflow.cloud.imagine-ai.eu
 nomad:
   host: https://api.cloud.ai4eosc.eu
   fullInfo: true
