@@ -24,7 +24,7 @@ public class DetailsProjectFetcher implements DetailsProvider {
         String rawDetails = fetchDetails(applicationId);
         Details details = new Details();
         details.setOrigin("AI4EOSC");
-        log.info("rawDetails: {}", rawDetails);
+        log.info("metadata details fetched!");
         FetchedDetails fetchedDetails = MAPPER.readValue(rawDetails, FetchedDetails.class);
         details.setFetchedDetails(fetchedDetails);
         return details;

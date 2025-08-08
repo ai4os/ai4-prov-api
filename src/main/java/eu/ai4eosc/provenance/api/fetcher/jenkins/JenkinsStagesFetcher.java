@@ -61,7 +61,7 @@ public class JenkinsStagesFetcher {
 
     private Optional<String> findDockerImg(String workflowURL, String stageId
     ) throws IOException, URISyntaxException {
-        URL logUrl = URLConverter.string2url(workflowURL + "/pipeline-console/log?nodeId=" + stageId).orElseThrow();
+        URL logUrl = URLConverter.string2url(workflowURL + "/consoleText").orElseThrow();
         log.info("trying to find docker image in logURL -> {}", logUrl);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(logUrl.openStream()))) {
             String line;

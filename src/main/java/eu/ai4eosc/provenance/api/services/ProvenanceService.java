@@ -80,7 +80,6 @@ public class ProvenanceService {
     ) throws IOException, InterruptedException, URISyntaxException {
         ObjectNode metadataJSON = MAPPER.createObjectNode();
         Details details = fetchApplicationDetails(metadataJSON, sources.applicationId());
-        log.info("Fetched details: {}", details);
 
         NomadDeploymentId nomadDeploymentId = null;
         MLFlowRunId mlFlowExperimentId = null;
