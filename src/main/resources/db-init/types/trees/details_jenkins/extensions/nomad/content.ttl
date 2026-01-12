@@ -11,7 +11,7 @@
     rml:logicalSource <#NomadLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://ai4os.eu/agent/{origin}" ;
+        rr:template "http://ai4eosc.eu/agent/{origin}" ;
         rr:class prov:Agent
    ] ;
 
@@ -39,7 +39,7 @@
     rml:logicalSource <#NomadLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://nomad.services.ai4os.eu/{job_ID}";
+        rr:template "http://nomad.cloud.ai4eosc.eu/{job_ID}";
         rr:class prov:Entity
     ] ;
 

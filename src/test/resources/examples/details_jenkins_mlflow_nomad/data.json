@@ -127,10 +127,10 @@
     "links": {
       "dataset": "http://add-some-url-pointing-to-your-dataset.com",
       "weights": "http://add-some-weights-url.com",
-      "cicd_url": "https://jenkins.services.ai4os.eu/job/ai4os-hub/job/ai4os-demo-app/job/main/",
+      "cicd_url": "https://jenkins.cloud.ai4eosc.eu/job/ai4os-hub/job/ai4os-demo-app/job/main/",
       "citation": "https://doi.org/10.5281/zenodo.13343448",
       "base_model": "http://add-some-link-to-another-model.com",
-      "cicd_badge": "https://jenkins.services.ai4os.eu/buildStatus/icon?job=ai4os-hub/ai4os-demo-app/main",
+      "cicd_badge": "https://jenkins.cloud.ai4eosc.eu/buildStatus/icon?job=ai4os-hub/ai4os-demo-app/main",
       "source_code": "https://github.com/ai4os-hub/ai4os-demo-app",
       "ai4_template": "ai4-template/2.0.0",
       "docker_image": "ai4oshub/ai4os-demo-app",
@@ -400,19 +400,19 @@
             "jobGroup": "AI4OS-hub",
             "jobBranch": "main"
           },
-          "authorURL": "https://jenkins.services.ai4os.eu/user/ignacioheredia",
+          "authorURL": "https://jenkins.cloud.ai4eosc.eu/user/ignacioheredia",
           "timeStamp": 1746779823000,
           "authorName": "Ignacio Heredia",
           "authorEmail": "iheredia@ifca.unican.es"
         }
       ],
-      "jenkinsUrl": "https://jenkins.services.ai4os.eu/job/AI4OS-hub/job/ai4os-demo-app/job/main/51/"
+      "jenkinsUrl": "https://jenkins.cloud.ai4eosc.eu/job/AI4OS-hub/job/ai4os-demo-app/job/main/51/"
     },
     "gitUrl": null,
     "origin": "Jenkins",
     "uniqueId": "AI4OS-hub/main/ai4os-demo-app/51",
     "fullLabel": "AI4OS Hub Building (QA) » ai4os-demo-app » main #51",
-    "jenkinsUrl": "https://jenkins.services.ai4os.eu/job/AI4OS-hub/job/ai4os-demo-app/job/main/",
+    "jenkinsUrl": "https://jenkins.cloud.ai4eosc.eu/job/AI4OS-hub/job/ai4os-demo-app/job/main/",
     "applicationId": "ai4os-demo-app"
   }
 }

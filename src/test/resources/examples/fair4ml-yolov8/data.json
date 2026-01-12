@@ -16,8 +16,8 @@
       "source_code": "https://github.com/ai4os-hub/ai4os-yolov8-torch",
       "docker_image": "ai4oshub/ai4os-yolov8-torch",
       "ai4_template": "ai4-template/1.9.9",
-      "cicd_url": "https://jenkins.services.ai4os.eu/job/ai4os-hub/job/ai4os-yolov8-torch/job/main/",
-      "cicd_badge": "https://jenkins.services.ai4os.eu/buildStatus/icon?job=ai4os-hub/ai4os-yolov8-torch/main"
+      "cicd_url": "https://jenkins.cloud.ai4eosc.eu/job/ai4os-hub/job/ai4os-yolov8-torch/job/main/",
+      "cicd_badge": "https://jenkins.cloud.ai4eosc.eu/buildStatus/icon?job=ai4os-hub/ai4os-yolov8-torch/main"
     },
     "tags": [
       "deep learning",

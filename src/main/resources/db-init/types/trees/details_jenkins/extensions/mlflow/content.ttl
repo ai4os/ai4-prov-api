@@ -20,7 +20,7 @@
     rml:logicalSource <#MLflowExperimentLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://ai4os.eu/agent/{origin}" ;
+        rr:template "http://ai4eosc.eu/agent/{origin}" ;
         rr:class prov:Agent
    ] ;
 
@@ -48,7 +48,7 @@
     rml:logicalSource <#MLflowExperimentLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://mlflow.services.ai4os.eu/job/{name}" ;
+        rr:template "http://mlflow.cloud.ai4eosc.eu/job/{name}" ;
         rr:class prov:Collection
     ];
 
@@ -117,7 +117,7 @@
     rml:logicalSource <#MLflowRunLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://mlflow.services.ai4os.eu/job/{info.run_id}";
+        rr:template "http://mlflow.cloud.ai4eosc.eu/job/{info.run_id}";
         rr:class prov:Entity
     ] ;
 
@@ -184,7 +184,7 @@
     ] ;
 
     rr:subjectMap [
-        rr:template "http://mlflow.services.ai4os.eu/job/run/tag/{key}";
+        rr:template "http://mlflow.cloud.ai4eosc.eu/job/run/tag/{key}";
         rr:class prov:Entity
     ] ;
 
@@ -229,7 +229,7 @@
     ] ;
 
     rr:subjectMap [
-        rr:template "http://mlflow.services.ai4os.eu/job/run/param/{key}";
+        rr:template "http://mlflow.cloud.ai4eosc.eu/job/run/param/{key}";
         rr:class prov:Entity
     ] ;
 
@@ -274,7 +274,7 @@
     ] ;
 
     rr:subjectMap [
-        rr:template "http://mlflow.services.ai4os.eu/job/run/metric/{key}";
+        rr:template "http://mlflow.cloud.ai4eosc.eu/job/run/metric/{key}";
         rr:class prov:Entity
     ] ;
 

@@ -11,7 +11,7 @@
 @prefix fair4ml: <https://w3id.org/fair4ml/0.0.1/#> .
 @prefix schema: <http://schema.org/#> .
 
-@base <http://ai4os.eu/> .
+@base <http://ai4eosc.eu/> .
 
 # Anhadir ontologia para status de los servicios o algo asi como por ejemplo para el "lyfecicle_stage" del MLflow
 # Por ahora estan puestos como dc:subject todos los conceptos para los que no tengo una ontologia
@@ -49,7 +49,7 @@
     rml:logicalSource <#OriginsLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://ai4os.eu/agent/{organization.id}" ;
+        rr:template "http://ai4eosc.eu/agent/{organization.id}" ;
         rr:class prov:Agent
     ];
 
@@ -74,7 +74,7 @@
     rml:logicalSource <#JenkinsLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://ai4os.eu/agent/{origin}" ;
+        rr:template "http://ai4eosc.eu/agent/{origin}" ;
         rr:class prov:Agent
    ] ;
 
@@ -326,7 +326,7 @@
     rml:logicalSource <#JenkinsLogicalSource> ;
 
     rr:subjectMap [
-       rr:template "http://harbor.services.ai4os.eu/docker-image/hash" ;
+       rr:template "http://harbor.cloud.ai4eosc.eu/docker-image/hash" ;
        rr:class prov:Entity
     ] ;
 
@@ -355,7 +355,7 @@
     rml:logicalSource <#DetailsLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://weights.services.ai4os.eu/weights";
+        rr:template "http://weights.cloud.ai4eosc.eu/weights";
         rr:class prov:Entity;
     ] ;
 
@@ -391,7 +391,7 @@
 <#SourceCode> a rr:TriplesMap ;
     rml:logicalSource <#DetailsLogicalSource> ;
     rr:subjectMap [
-        rr:template "http://sourcecode.services.ai4os.eu/code";
+        rr:template "http://sourcecode.cloud.ai4eosc.eu/code";
         rr:class prov:Entity;
     ] ;
 
@@ -416,7 +416,7 @@
 <#Dataset> a rr:TriplesMap ;
     rml:logicalSource <#DetailsLogicalSource> ;
     rr:subjectMap [
-        rr:template "http://dataset.services.ai4os.eu/dataset";
+        rr:template "http://dataset.cloud.ai4eosc.eu/dataset";
         rr:class prov:Entity;
     ] ;
 
@@ -451,7 +451,7 @@
    ] ;
 
     rr:subjectMap [
-        rr:template "http://jenkins.services.ai4os.eu/jenkins-polling";
+        rr:template "http://jenkins.cloud.ai4eosc.eu/jenkins-polling";
         rr:class prov:Activity
     ] ;
 
@@ -467,7 +467,7 @@
     rml:logicalSource <#JenkinsLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://jenkins.services.ai4os.eu/job/{id.jobGroup}" ;
+        rr:template "http://jenkins.cloud.ai4eosc.eu/job/{id.jobGroup}" ;
         rr:class prov:Entity
     ] ;
 
@@ -499,7 +499,7 @@
     rml:logicalSource <#JenkinsLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://jenkins.services.ai4os.eu/job/{id.jobGroup}/job/{id.jobName}" ;
+        rr:template "http://jenkins.cloud.ai4eosc.eu/job/{id.jobGroup}/job/{id.jobName}" ;
         rr:class prov:Entity
     ];
 
@@ -539,7 +539,7 @@
     rml:logicalSource <#JenkinsLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://jenkins.services.ai4os.eu/job/{id.jobGroup}/job/{id.jobName}/job/{id.jobBranch}";
+        rr:template "http://jenkins.cloud.ai4eosc.eu/job/{id.jobGroup}/job/{id.jobName}/job/{id.jobBranch}";
         rr:class prov:Entity
     ] ;
 
@@ -627,7 +627,7 @@
 
 
     rr:subjectMap [
-        rr:template "https://jenkins.services.ai4os.eu/job/{jenkins.jobGroup}/job/{jenkins.jobName}/job/{jenkins.jobBranch}/{jenkins.buildId}/pipeline-console/?selected-node={id}";
+        rr:template "https://jenkins.cloud.ai4eosc.eu/job/{jenkins.jobGroup}/job/{jenkins.jobName}/job/{jenkins.jobBranch}/{jenkins.buildId}/pipeline-console/?selected-node={id}";
         rr:class prov:Activity
     ] ;
 
@@ -669,7 +669,7 @@
     rml:logicalSource <#JenkinsLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://jenkins.services.ai4os.eu/job/{id.jobGroup}/job/{id.jobName}/job/{id.jobBranch}/{id.buildId}";
+        rr:template "http://jenkins.cloud.ai4eosc.eu/job/{id.jobGroup}/job/{id.jobName}/job/{id.jobBranch}/{id.buildId}";
         rr:class prov:Entity
     ] ;
 
@@ -701,7 +701,7 @@
     rml:logicalSource <#JenkinsLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://jenkins.services.ai4os.eu/job/{id.jobGroup}/job/{id.jobName}/job/{id.jobBranch}/{id.buildId}/Building";
+        rr:template "http://jenkins.cloud.ai4eosc.eu/job/{id.jobGroup}/job/{id.jobName}/job/{id.jobBranch}/{id.buildId}/Building";
         rr:class prov:Activity
     ] ;
 
@@ -790,7 +790,7 @@
     rml:logicalSource <#MLflowExperimentLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://ai4os.eu/agent/{origin}" ;
+        rr:template "http://ai4eosc.eu/agent/{origin}" ;
         rr:class prov:Agent
    ] ;
 
@@ -818,7 +818,7 @@
     rml:logicalSource <#MLflowExperimentLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://mlflow.services.ai4os.eu/job/{name}" ;
+        rr:template "http://mlflow.cloud.ai4eosc.eu/job/{name}" ;
         rr:class prov:Collection
     ];
 
@@ -887,7 +887,7 @@
     rml:logicalSource <#MLflowRunLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://mlflow.services.ai4os.eu/job/{info.run_id}";
+        rr:template "http://mlflow.cloud.ai4eosc.eu/job/{info.run_id}";
         rr:class prov:Entity
     ] ;
 
@@ -964,7 +964,7 @@
     ] ;
 
     rr:subjectMap [
-        rr:template "http://mlflow.services.ai4os.eu/job/run/tag/{key}";
+        rr:template "http://mlflow.cloud.ai4eosc.eu/job/run/tag/{key}";
         rr:class prov:Entity
     ] ;
 
@@ -1009,7 +1009,7 @@
     ] ;
 
     rr:subjectMap [
-        rr:template "http://mlflow.services.ai4os.eu/job/run/param/{key}";
+        rr:template "http://mlflow.cloud.ai4eosc.eu/job/run/param/{key}";
         rr:class prov:Entity
     ] ;
 
@@ -1054,7 +1054,7 @@
     ] ;
 
     rr:subjectMap [
-        rr:template "http://mlflow.services.ai4os.eu/job/run/metric/{key}";
+        rr:template "http://mlflow.cloud.ai4eosc.eu/job/run/metric/{key}";
         rr:class prov:Entity
     ] ;
 
@@ -1112,7 +1112,7 @@
     rml:logicalSource <#NomadLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://ai4os.eu/agent/{origin}" ;
+        rr:template "http://ai4eosc.eu/agent/{origin}" ;
         rr:class prov:Agent
    ] ;
 
@@ -1140,7 +1140,7 @@
     rml:logicalSource <#NomadLogicalSource> ;
 
     rr:subjectMap [
-        rr:template "http://nomad.services.ai4os.eu/{job_ID}";
+        rr:template "http://nomad.cloud.ai4eosc.eu/{job_ID}";
         rr:class prov:Entity
     ] ;
 
