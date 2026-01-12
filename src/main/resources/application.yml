@@ -30,7 +30,7 @@ logging:
   level:
     org.springframework.boot.context.config: DEBUG
 jenkins:
-  host: https://jenkins.services.ai4os.eu
+  host: https://jenkins.cloud.ai4eosc.eu
 mlflow:
   ai4eosc:
     host: https://mlflow.cloud.ai4eosc.eu
